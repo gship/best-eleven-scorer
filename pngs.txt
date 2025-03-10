@@ -1,0 +1,371 @@
+ Volume in drive C is Windows8_OS
+ Volume Serial Number is 7E98-878D
+
+ Directory of C:\Users\gship_000\StudioProjects\best_xi_scorer\android\app\src\main\res\mipmap-hdpi
+
+12/07/2023  10:02 PM               544 ic_launcher.png
+               1 File(s)            544 bytes
+
+ Directory of C:\Users\gship_000\StudioProjects\best_xi_scorer\android\app\src\main\res\mipmap-mdpi
+
+12/07/2023  10:02 PM               442 ic_launcher.png
+               1 File(s)            442 bytes
+
+ Directory of C:\Users\gship_000\StudioProjects\best_xi_scorer\android\app\src\main\res\mipmap-xhdpi
+
+12/07/2023  10:02 PM               721 ic_launcher.png
+               1 File(s)            721 bytes
+
+ Directory of C:\Users\gship_000\StudioProjects\best_xi_scorer\android\app\src\main\res\mipmap-xxhdpi
+
+12/07/2023  10:02 PM             1,031 ic_launcher.png
+               1 File(s)          1,031 bytes
+
+ Directory of C:\Users\gship_000\StudioProjects\best_xi_scorer\android\app\src\main\res\mipmap-xxxhdpi
+
+12/07/2023  10:02 PM             1,443 ic_launcher.png
+               1 File(s)          1,443 bytes
+
+ Directory of C:\Users\gship_000\StudioProjects\best_xi_scorer\build\app\intermediates\assets\debug\flutter_assets\images
+
+12/20/2024  09:23 PM         1,822,625 background.png
+12/20/2024  09:23 PM         2,109,681 home.png
+12/20/2024  09:23 PM             2,508 keeper_icon.png
+12/20/2024  09:23 PM             2,500 manager_icon.png
+12/20/2024  09:23 PM             5,928 money_icon_big.png
+12/20/2024  09:23 PM             3,106 tactical_icon.png
+               6 File(s)      3,946,348 bytes
+
+ Directory of C:\Users\gship_000\StudioProjects\best_xi_scorer\build\app\intermediates\assets\debug\flutter_assets\images\keepers
+
+12/20/2024  09:23 PM           140,764 Holy_Goalie.png
+12/20/2024  09:23 PM           178,799 Soul.png
+12/20/2024  09:23 PM            74,898 Super_Man.png
+12/20/2024  09:23 PM            59,370 The_Angry_Donut.png
+12/20/2024  09:23 PM           151,960 The_Black_Spider.png
+12/20/2024  09:23 PM           156,638 The_Great_Dane.png
+12/20/2024  09:23 PM           150,720 The_Hostage.png
+12/20/2024  09:23 PM           116,442 The_Janitor.png
+12/20/2024  09:23 PM           106,809 The_Saint.png
+               9 File(s)      1,136,400 bytes
+
+ Directory of C:\Users\gship_000\StudioProjects\best_xi_scorer\build\app\intermediates\assets\debug\flutter_assets\images\managers
+
+12/20/2024  09:23 PM           279,968 Sheikh.png
+12/20/2024  09:23 PM           189,998 Son_of_Fury.png
+12/20/2024  09:23 PM           173,184 The_Brain.png
+12/20/2024  09:23 PM           146,986 The_Handyman.png
+12/20/2024  09:23 PM           202,690 The_Nun.png
+               5 File(s)        992,826 bytes
+
+ Directory of C:\Users\gship_000\StudioProjects\best_xi_scorer\build\app\intermediates\assets\debug\mergeDebugAssets\flutter_assets\images
+
+12/20/2024  11:45 PM         1,822,625 background.png
+12/20/2024  11:45 PM         2,109,681 home.png
+12/20/2024  11:45 PM             2,508 keeper_icon.png
+12/20/2024  11:45 PM             2,500 manager_icon.png
+12/20/2024  11:45 PM             5,928 money_icon_big.png
+12/20/2024  11:45 PM             3,106 tactical_icon.png
+               6 File(s)      3,946,348 bytes
+
+ Directory of C:\Users\gship_000\StudioProjects\best_xi_scorer\build\app\intermediates\assets\debug\mergeDebugAssets\flutter_assets\images\keepers
+
+12/20/2024  11:45 PM           140,764 Holy_Goalie.png
+12/20/2024  11:45 PM           178,799 Soul.png
+12/20/2024  11:45 PM            74,898 Super_Man.png
+12/20/2024  11:45 PM            59,370 The_Angry_Donut.png
+12/20/2024  11:45 PM           151,960 The_Black_Spider.png
+12/20/2024  11:45 PM           156,638 The_Great_Dane.png
+12/20/2024  11:45 PM           150,720 The_Hostage.png
+12/20/2024  11:45 PM           116,442 The_Janitor.png
+12/20/2024  11:45 PM           106,809 The_Saint.png
+               9 File(s)      1,136,400 bytes
+
+ Directory of C:\Users\gship_000\StudioProjects\best_xi_scorer\build\app\intermediates\assets\debug\mergeDebugAssets\flutter_assets\images\managers
+
+12/20/2024  11:45 PM           279,968 Sheikh.png
+12/20/2024  11:45 PM           189,998 Son_of_Fury.png
+12/20/2024  11:45 PM           173,184 The_Brain.png
+12/20/2024  11:45 PM           146,986 The_Handyman.png
+12/20/2024  11:45 PM           202,690 The_Nun.png
+               5 File(s)        992,826 bytes
+
+ Directory of C:\Users\gship_000\StudioProjects\best_xi_scorer\build\app\intermediates\flutter\debug\flutter_assets\images
+
+12/19/2024  10:50 PM         1,822,625 background.png
+12/06/2024  02:06 PM         2,109,681 home.png
+12/06/2024  02:06 PM             2,508 keeper_icon.png
+12/06/2024  02:06 PM             2,500 manager_icon.png
+12/06/2024  02:06 PM             5,928 money_icon_big.png
+12/06/2024  02:06 PM             3,106 tactical_icon.png
+               6 File(s)      3,946,348 bytes
+
+ Directory of C:\Users\gship_000\StudioProjects\best_xi_scorer\build\app\intermediates\flutter\debug\flutter_assets\images\keepers
+
+12/06/2024  02:06 PM           140,764 Holy_Goalie.png
+12/06/2024  02:06 PM           178,799 Soul.png
+12/06/2024  02:06 PM            74,898 Super_Man.png
+12/06/2024  02:06 PM            59,370 The_Angry_Donut.png
+12/06/2024  02:06 PM           151,960 The_Black_Spider.png
+12/06/2024  02:06 PM           156,638 The_Great_Dane.png
+12/06/2024  02:06 PM           150,720 The_Hostage.png
+12/06/2024  02:06 PM           116,442 The_Janitor.png
+12/06/2024  02:06 PM           106,809 The_Saint.png
+               9 File(s)      1,136,400 bytes
+
+ Directory of C:\Users\gship_000\StudioProjects\best_xi_scorer\build\app\intermediates\flutter\debug\flutter_assets\images\managers
+
+12/06/2024  02:06 PM           279,968 Sheikh.png
+12/06/2024  02:06 PM           189,998 Son_of_Fury.png
+12/06/2024  02:06 PM           173,184 The_Brain.png
+12/06/2024  02:06 PM           146,986 The_Handyman.png
+12/06/2024  02:06 PM           202,690 The_Nun.png
+               5 File(s)        992,826 bytes
+
+ Directory of C:\Users\gship_000\StudioProjects\best_xi_scorer\build\app\intermediates\packaged_res\debug\mipmap-hdpi-v4
+
+12/07/2023  10:02 PM               544 ic_launcher.png
+               1 File(s)            544 bytes
+
+ Directory of C:\Users\gship_000\StudioProjects\best_xi_scorer\build\app\intermediates\packaged_res\debug\mipmap-mdpi-v4
+
+12/07/2023  10:02 PM               442 ic_launcher.png
+               1 File(s)            442 bytes
+
+ Directory of C:\Users\gship_000\StudioProjects\best_xi_scorer\build\app\intermediates\packaged_res\debug\mipmap-xhdpi-v4
+
+12/07/2023  10:02 PM               721 ic_launcher.png
+               1 File(s)            721 bytes
+
+ Directory of C:\Users\gship_000\StudioProjects\best_xi_scorer\build\app\intermediates\packaged_res\debug\mipmap-xxhdpi-v4
+
+12/07/2023  10:02 PM             1,031 ic_launcher.png
+               1 File(s)          1,031 bytes
+
+ Directory of C:\Users\gship_000\StudioProjects\best_xi_scorer\build\app\intermediates\packaged_res\debug\mipmap-xxxhdpi-v4
+
+12/07/2023  10:02 PM             1,443 ic_launcher.png
+               1 File(s)          1,443 bytes
+
+ Directory of C:\Users\gship_000\StudioProjects\best_xi_scorer\build\app\intermediates\packaged_res\debug\packageDebugResources\mipmap-hdpi-v4
+
+12/07/2023  10:02 PM               544 ic_launcher.png
+               1 File(s)            544 bytes
+
+ Directory of C:\Users\gship_000\StudioProjects\best_xi_scorer\build\app\intermediates\packaged_res\debug\packageDebugResources\mipmap-mdpi-v4
+
+12/07/2023  10:02 PM               442 ic_launcher.png
+               1 File(s)            442 bytes
+
+ Directory of C:\Users\gship_000\StudioProjects\best_xi_scorer\build\app\intermediates\packaged_res\debug\packageDebugResources\mipmap-xhdpi-v4
+
+12/07/2023  10:02 PM               721 ic_launcher.png
+               1 File(s)            721 bytes
+
+ Directory of C:\Users\gship_000\StudioProjects\best_xi_scorer\build\app\intermediates\packaged_res\debug\packageDebugResources\mipmap-xxhdpi-v4
+
+12/07/2023  10:02 PM             1,031 ic_launcher.png
+               1 File(s)          1,031 bytes
+
+ Directory of C:\Users\gship_000\StudioProjects\best_xi_scorer\build\app\intermediates\packaged_res\debug\packageDebugResources\mipmap-xxxhdpi-v4
+
+12/07/2023  10:02 PM             1,443 ic_launcher.png
+               1 File(s)          1,443 bytes
+
+ Directory of C:\Users\gship_000\StudioProjects\best_xi_scorer\images
+
+12/19/2024  10:50 PM         1,822,625 background.png
+12/06/2024  02:06 PM             6,693 big_white_button.png
+12/06/2024  02:06 PM             2,639 defender_icon.png
+12/06/2024  02:06 PM             2,289 forward_icon.png
+12/06/2024  02:06 PM         2,109,681 home.png
+12/06/2024  02:06 PM             2,508 keeper_icon.png
+12/06/2024  02:06 PM             2,500 manager_icon.png
+12/06/2024  02:06 PM             2,602 midfielder_icon.png
+12/06/2024  02:06 PM             5,928 money_icon_big.png
+12/06/2024  02:06 PM             2,463 money_icon_small.png
+12/06/2024  02:06 PM            55,408 scorepad.png
+12/06/2024  02:06 PM             5,528 small_black_button.png
+12/06/2024  02:06 PM             3,106 tactical_icon.png
+              13 File(s)      4,023,970 bytes
+
+ Directory of C:\Users\gship_000\StudioProjects\best_xi_scorer\images\keepers
+
+12/06/2024  02:06 PM           140,764 Holy_Goalie.png
+12/06/2024  02:06 PM           178,799 Soul.png
+12/06/2024  02:06 PM            74,898 Super_Man.png
+12/06/2024  02:06 PM            59,370 The_Angry_Donut.png
+12/06/2024  02:06 PM           151,960 The_Black_Spider.png
+12/06/2024  02:06 PM           156,638 The_Great_Dane.png
+12/06/2024  02:06 PM           150,720 The_Hostage.png
+12/06/2024  02:06 PM           116,442 The_Janitor.png
+12/06/2024  02:06 PM           106,809 The_Saint.png
+               9 File(s)      1,136,400 bytes
+
+ Directory of C:\Users\gship_000\StudioProjects\best_xi_scorer\images\managers
+
+12/06/2024  02:06 PM           279,968 Sheikh.png
+12/06/2024  02:06 PM           189,998 Son_of_Fury.png
+12/06/2024  02:06 PM           173,184 The_Brain.png
+12/06/2024  02:06 PM           146,986 The_Handyman.png
+12/06/2024  02:06 PM           202,690 The_Nun.png
+               5 File(s)        992,826 bytes
+
+ Directory of C:\Users\gship_000\StudioProjects\best_xi_scorer\images\players
+
+12/06/2024  02:06 PM            41,018 01.png
+12/06/2024  02:06 PM            56,104 02.png
+12/06/2024  02:06 PM            23,210 03.png
+12/06/2024  02:06 PM            41,757 04.png
+12/06/2024  02:06 PM            38,589 05.png
+12/06/2024  02:06 PM            42,977 06.png
+12/06/2024  02:06 PM            52,775 07.png
+12/06/2024  02:06 PM            46,823 08.png
+12/06/2024  02:06 PM            29,505 09.png
+12/06/2024  02:06 PM            57,194 10.png
+12/06/2024  02:06 PM            56,139 100.png
+12/06/2024  02:06 PM            50,412 101.png
+12/06/2024  02:06 PM            20,895 11.png
+12/06/2024  02:06 PM            43,745 12.png
+12/06/2024  02:06 PM            59,330 13.png
+12/06/2024  02:06 PM            49,528 14.png
+12/06/2024  02:06 PM            39,600 15.png
+12/06/2024  02:06 PM            40,374 16.png
+12/06/2024  02:06 PM            56,650 17.png
+12/06/2024  02:06 PM            36,374 18.png
+12/06/2024  02:06 PM            36,895 19.png
+12/06/2024  02:06 PM            51,071 20.png
+12/06/2024  02:06 PM            59,692 21.png
+12/06/2024  02:06 PM            52,736 22.png
+12/06/2024  02:06 PM            50,985 23.png
+12/06/2024  02:06 PM            55,356 24.png
+12/06/2024  02:06 PM            35,247 25.png
+12/06/2024  02:06 PM            40,914 26.png
+12/06/2024  02:06 PM            49,436 27.png
+12/06/2024  02:06 PM            35,504 28.png
+12/06/2024  02:06 PM            58,538 29.png
+12/06/2024  02:06 PM            45,558 30.png
+12/06/2024  02:06 PM            48,589 31.png
+12/06/2024  02:06 PM            52,348 32.png
+12/06/2024  02:06 PM            51,697 33.png
+12/06/2024  02:06 PM            30,796 34.png
+12/06/2024  02:06 PM            45,357 35.png
+12/06/2024  02:06 PM            53,929 36.png
+12/06/2024  02:06 PM            54,099 37.png
+12/06/2024  02:06 PM            36,842 38.png
+12/06/2024  02:06 PM            49,123 39.png
+12/06/2024  02:06 PM            36,583 40.png
+12/06/2024  02:06 PM            23,407 41.png
+12/06/2024  02:06 PM            61,070 42.png
+12/06/2024  02:06 PM            66,202 43.png
+12/06/2024  02:06 PM            52,294 44.png
+12/06/2024  02:06 PM            46,054 45.png
+12/06/2024  02:06 PM            46,420 46.png
+12/06/2024  02:06 PM            50,577 47.png
+12/06/2024  02:06 PM            42,735 48.png
+12/06/2024  02:06 PM            38,968 49.png
+12/06/2024  02:06 PM            48,209 50.png
+12/06/2024  02:06 PM            33,261 51.png
+12/06/2024  02:06 PM            54,413 52.png
+12/06/2024  02:06 PM            45,723 53.png
+12/06/2024  02:06 PM            47,536 54.png
+12/06/2024  02:06 PM            59,866 55.png
+12/06/2024  02:06 PM            39,944 56.png
+12/06/2024  02:06 PM            49,923 57.png
+12/06/2024  02:06 PM            38,834 58.png
+12/06/2024  02:06 PM            53,419 59.png
+12/06/2024  02:06 PM            35,546 60.png
+12/06/2024  02:06 PM            48,548 61.png
+12/06/2024  02:06 PM            53,234 62.png
+12/06/2024  02:06 PM            36,405 63.png
+12/06/2024  02:06 PM            35,855 64.png
+12/06/2024  02:06 PM            41,965 65.png
+12/06/2024  02:06 PM            34,027 66.png
+12/06/2024  02:06 PM            65,761 67.png
+12/06/2024  02:06 PM            53,660 68.png
+12/06/2024  02:06 PM            40,655 69.png
+12/06/2024  02:06 PM            46,291 70.png
+12/06/2024  02:06 PM            50,039 71.png
+12/06/2024  02:06 PM            40,680 72.png
+12/06/2024  02:06 PM            61,183 73.png
+12/06/2024  02:06 PM            50,703 74.png
+12/06/2024  02:06 PM            48,762 75.png
+12/06/2024  02:06 PM            55,802 76.png
+12/06/2024  02:06 PM            42,024 77.png
+12/06/2024  02:06 PM            47,661 78.png
+12/06/2024  02:06 PM            40,497 79.png
+12/06/2024  02:06 PM            37,602 80.png
+12/06/2024  02:06 PM            63,927 81.png
+12/06/2024  02:06 PM            39,212 82.png
+12/06/2024  02:06 PM            53,954 83.png
+12/06/2024  02:06 PM            39,058 84.png
+12/06/2024  02:06 PM            43,766 85.png
+12/06/2024  02:06 PM            50,987 86.png
+12/06/2024  02:06 PM            34,778 87.png
+12/06/2024  02:06 PM            54,054 88.png
+12/06/2024  02:06 PM            40,387 89.png
+12/06/2024  02:06 PM            39,427 90.png
+12/06/2024  02:06 PM            40,900 91.png
+12/06/2024  02:06 PM            37,395 92.png
+12/06/2024  02:06 PM            36,601 93.png
+12/06/2024  02:06 PM            54,789 94.png
+12/06/2024  02:06 PM            35,782 95.png
+12/06/2024  02:06 PM            54,072 96.png
+12/06/2024  02:06 PM            42,017 97.png
+12/06/2024  02:06 PM            64,163 98.png
+12/06/2024  02:06 PM            50,477 99.png
+             101 File(s)      4,655,795 bytes
+
+ Directory of C:\Users\gship_000\StudioProjects\best_xi_scorer\ios\Runner\Assets.xcassets\AppIcon.appiconset
+
+12/07/2023  10:11 PM            10,932 Icon-App-1024x1024@1x.png
+12/07/2023  10:11 PM               295 Icon-App-20x20@1x.png
+12/07/2023  10:11 PM               406 Icon-App-20x20@2x.png
+12/07/2023  10:11 PM               450 Icon-App-20x20@3x.png
+12/07/2023  10:11 PM               282 Icon-App-29x29@1x.png
+12/07/2023  10:11 PM               462 Icon-App-29x29@2x.png
+12/07/2023  10:11 PM               704 Icon-App-29x29@3x.png
+12/07/2023  10:11 PM               406 Icon-App-40x40@1x.png
+12/07/2023  10:11 PM               586 Icon-App-40x40@2x.png
+12/07/2023  10:11 PM               862 Icon-App-40x40@3x.png
+12/07/2023  10:11 PM               862 Icon-App-60x60@2x.png
+12/07/2023  10:11 PM             1,674 Icon-App-60x60@3x.png
+12/07/2023  10:11 PM               762 Icon-App-76x76@1x.png
+12/07/2023  10:11 PM             1,226 Icon-App-76x76@2x.png
+12/07/2023  10:11 PM             1,418 Icon-App-83.5x83.5@2x.png
+              15 File(s)         21,327 bytes
+
+ Directory of C:\Users\gship_000\StudioProjects\best_xi_scorer\ios\Runner\Assets.xcassets\LaunchImage.imageset
+
+12/07/2023  10:11 PM                68 LaunchImage.png
+12/07/2023  10:11 PM                68 LaunchImage@2x.png
+12/07/2023  10:11 PM                68 LaunchImage@3x.png
+               3 File(s)            204 bytes
+
+ Directory of C:\Users\gship_000\StudioProjects\best_xi_scorer\macos\Runner\Assets.xcassets\AppIcon.appiconset
+
+12/07/2023  10:11 PM           102,994 app_icon_1024.png
+12/07/2023  10:11 PM             5,680 app_icon_128.png
+12/07/2023  10:11 PM               520 app_icon_16.png
+12/07/2023  10:11 PM            14,142 app_icon_256.png
+12/07/2023  10:11 PM             1,066 app_icon_32.png
+12/07/2023  10:11 PM            36,406 app_icon_512.png
+12/07/2023  10:11 PM             2,218 app_icon_64.png
+               7 File(s)        163,026 bytes
+
+ Directory of C:\Users\gship_000\StudioProjects\best_xi_scorer\web
+
+12/07/2023  10:02 PM               917 favicon.png
+               1 File(s)            917 bytes
+
+ Directory of C:\Users\gship_000\StudioProjects\best_xi_scorer\web\icons
+
+12/07/2023  10:02 PM             5,292 Icon-192.png
+12/07/2023  10:02 PM             8,252 Icon-512.png
+12/07/2023  10:11 PM             5,594 Icon-maskable-192.png
+12/07/2023  10:11 PM            20,998 Icon-maskable-512.png
+               4 File(s)         40,136 bytes
+
+     Total Files Listed:
+             233 File(s)     29,273,866 bytes
+               0 Dir(s)  555,472,429,056 bytes free
