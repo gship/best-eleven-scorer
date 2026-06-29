@@ -5,19 +5,48 @@ import 'package:intl/intl.dart';
 import '../core.dart';
 
 void main() async {
-
   // Initialize the database and insert users
   WidgetsFlutterBinding.ensureInitialized();
   initialize();
 
   DateTime now = DateTime.now();
   String formattedDate = DateFormat('yyyy-MM-dd').format(now);
-  HighScore glen = HighScore(id: 1, date: formattedDate, player: 'Glen', score: 127);
-  HighScore sheila = HighScore(id: 2, date: formattedDate, player: 'Sheila', score: 120);
-  HighScore matt = HighScore(id: 3, date: formattedDate, player: 'Matt', score: 100);
-  HighScore brig = HighScore(id: 4, date: formattedDate, player: 'Brigham', score: 97);
-  HighScore jeho = HighScore(id: 5, date: formattedDate, player: 'Jehosaphat', score: 93);
-  HighScore gmf = HighScore(id: 6, date: formattedDate, player: 'Grandmaster Funk', score: 91);
+  HighScore glen = HighScore(
+    id: 1,
+    date: formattedDate,
+    player: 'Glen',
+    score: 127,
+  );
+  HighScore sheila = HighScore(
+    id: 2,
+    date: formattedDate,
+    player: 'Sheila',
+    score: 120,
+  );
+  HighScore matt = HighScore(
+    id: 3,
+    date: formattedDate,
+    player: 'Matt',
+    score: 100,
+  );
+  HighScore brig = HighScore(
+    id: 4,
+    date: formattedDate,
+    player: 'Brigham',
+    score: 97,
+  );
+  HighScore jeho = HighScore(
+    id: 5,
+    date: formattedDate,
+    player: 'Jehosaphat',
+    score: 93,
+  );
+  HighScore gmf = HighScore(
+    id: 6,
+    date: formattedDate,
+    player: 'Grandmaster Funk',
+    score: 91,
+  );
   await highScoresDatabase.deleteHighScores();
   debugPrint('inserting high scores');
 
@@ -29,7 +58,7 @@ void main() async {
   await highScoresDatabase.insertHighScore(jeho);
   await highScoresDatabase.insertHighScore(gmf);
   int timeEnd = DateTime.now().millisecondsSinceEpoch;
-  debugPrint('individual inserts took ${timeEnd-timeStart} mSec');
+  debugPrint('individual inserts took ${timeEnd - timeStart} mSec');
   await highScoresDatabase.deleteHighScores();
 
   timeStart = DateTime.now().millisecondsSinceEpoch;
@@ -42,7 +71,7 @@ void main() async {
 
   await highScoresDatabase.bulkInsert(valuesString);
   timeEnd = DateTime.now().millisecondsSinceEpoch;
-  debugPrint('bulkInsert took ${timeEnd-timeStart} mSec');
+  debugPrint('bulkInsert took ${timeEnd - timeStart} mSec');
 
   debugPrint('inserted high scores');
 
@@ -99,13 +128,15 @@ class HighScoresListState extends State<HighScoresList> {
         itemCount: _highScores.length,
         itemBuilder: (context, index) {
           return ListTile(
-            title: Text(_highScores[index].toString(),
-                style: TextStyle(
-              color: Colors.black,
-              fontSize: 26,
-              fontFamily: 'Providence',
-              fontWeight: FontWeight.bold,
-            )),
+            title: Text(
+              _highScores[index].toString(),
+              style: TextStyle(
+                color: Colors.black,
+                fontSize: 26,
+                fontFamily: 'Providence',
+                fontWeight: FontWeight.bold,
+              ),
+            ),
           );
         },
       ),

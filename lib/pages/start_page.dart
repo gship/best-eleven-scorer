@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../best_eleven_button.dart';
-import '../main_contain.dart';
+import '../background_container.dart';
 import '../routes.dart';
 import '../core.dart';
 
@@ -9,12 +9,10 @@ class StartPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return mainContain(
+    return backgroundContainer(
       context,
-      AssetImage('images/home.png'),
+      AssetImage('images/home.webp'),
       content(context),
-      true,
-      false,
     );
   }
 
@@ -22,43 +20,32 @@ class StartPage extends StatelessWidget {
     void processPressed(int numPlayers) {
       core.numPlayers = numPlayers;
 
-      Navigator.pushNamed(context, Routes.nameEntryPage).then((_) {
-        debugPrint('I\'ve been popped start page');
+      Navigator.pushNamed(context, nameEntryPage).then((_) {
+        debugPrint("Returned from name entry page, popping to root");
         core.numPlayers = 0;
       });
     }
 
-    final Size size = MediaQuery.sizeOf(context);
-    debugPrint('media size = ${size.width} , ${size.height}');
-
-    Padding numPlayersPaddedButton(int playerNum) {
+    Padding numPlayersPaddedButton(int numberOfPlayers) {
       return Padding(
         padding: const EdgeInsets.all(8.0),
         child: Align(
           child: ElevatedButton(
             style: ButtonStyle(
-              padding:
-                  (playerNum > 1)
-                      ? WidgetStatePropertyAll(
-                        EdgeInsets.fromLTRB(40, 17, 40, 17),
-                      )
-                      : WidgetStatePropertyAll(
-                        EdgeInsets.fromLTRB(46, 17, 46, 17),
-                      ),
               shape: WidgetStatePropertyAll(
                 RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(32.0),
                 ),
               ),
-              minimumSize: const WidgetStatePropertyAll(Size(100, 60)),
+              fixedSize: const WidgetStatePropertyAll(Size(200, 80)),
               backgroundColor: WidgetStateProperty.all(Colors.black),
               foregroundColor: WidgetStateProperty.all(Colors.white),
               overlayColor: WidgetStatePropertyAll<Color>(Colors.pink),
             ),
-            onPressed: () => processPressed(playerNum),
+            onPressed: () => processPressed(numberOfPlayers),
             child: Text(
-              '$playerNum Player${(playerNum > 1) ? 's' : ''}',
-              style: TextStyle(fontSize: 25.0, fontWeight: FontWeight.w100),
+              '$numberOfPlayers Players',
+              style: TextStyle(fontSize: 30.0, fontWeight: FontWeight.w100),
             ),
           ),
         ),
@@ -72,12 +59,13 @@ class StartPage extends StatelessWidget {
             padding: const EdgeInsets.only(top: 50, bottom: 30),
             child: SizedBox(
               height: 100,
-              child: Image(image: AssetImage('images/best_xi_logo.png')),
+              child: Image(image: AssetImage('images/best_xi_logo.webp')),
             ),
           ),
           numPlayersPaddedButton(2),
           numPlayersPaddedButton(3),
           numPlayersPaddedButton(4),
+          SizedBox(height: 20),
           Align(
             child: BestElevenButton(
               buttonText: 'BACK',

@@ -1,5 +1,6 @@
 import 'bonus_stipulation.dart';
 import 'team.dart';
+import 'player.dart';
 import 'package:flutter/material.dart';
 
 final playerBasePoints = PlayerBasePoints();
@@ -7,15 +8,45 @@ final playerBasePoints = PlayerBasePoints();
 class PlayerBasePoints implements BonusStipulation {
   @override
   int calculateBonus(Team team) {
-    debugPrint('entering calculateBonus for PlayerBonusPoints');
-    int returnPoints = 0;
+    int retVal = 0;
 
     for (var player in team.players) {
-      //debugPrint('${player.name} has ${player.points} points');
-      returnPoints += player.points;
+      if (player.points == -1) {
+        debugPrint(
+          'Player ${player.name} form match ----------------------------',
+        );
+        retVal += formMatch(team, player);
+      } else {
+        retVal += player.points;
+      }
+
+      if (player.pointsScoringBonus != null) {
+        debugPrint(
+          'Player ${player.name} bonus stipulation ${player.pointsScoringBonus} ----------------------------',
+        );
+        retVal += player.pointsScoringBonus!.calculateBonus(team);
+      }
     }
 
-    debugPrint('bonus for PlayerBonusPoints is $returnPoints');
-    return returnPoints;
+    debugPrint('bonus for PlayerBonusPoints is $retVal');
+    return retVal;
+  }
+
+  int formMatch(Team team, Player player) {
+    int highPoints = 0;
+    for (var mate in team.players) {
+      if (allPlayerStats[mate.index].playingPosition ==
+          allPlayerStats[player.index].playingPosition) {
+        if (mate.points > highPoints) {
+          highPoints = mate.points;
+        }
+      }
+    }
+
+    if (highPoints == 0) {
+      highPoints = 2;
+    }
+
+    return highPoints;
   }
 }

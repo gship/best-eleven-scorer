@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
@@ -52,11 +53,8 @@ void main() async {
 
     // Convert the list of each dog's fields into a list of `Dog` objects.
     return [
-      for (final {
-      'id': id as int,
-      'name': name as String,
-      'age': age as int,
-      } in dogMaps)
+      for (final {'id': id as int, 'name': name as String, 'age': age as int}
+          in dogMaps)
         Dog(id: id, name: name, age: age),
     ];
   }
@@ -91,45 +89,40 @@ void main() async {
   }
 
   // Create a Dog and add it to the dogs table
-  var fido = Dog(
-    id: 0,
-    name: 'Fido',
-    age: 35,
-  );
+  var fido = Dog(id: 0, name: 'Fido', age: 35);
 
   await insertDog(fido);
 
   // Now, use the method above to retrieve all the dogs.
-  print(await dogs()); // Prints a list that include Fido.
+  if (kDebugMode) {
+    print(await dogs());
+  } // Prints a list that include Fido.
 
   // Update Fido's age and save it to the database.
-  fido = Dog(
-    id: fido.id,
-    name: fido.name,
-    age: fido.age + 7,
-  );
+  fido = Dog(id: fido.id, name: fido.name, age: fido.age + 7);
   await updateDog(fido);
 
   // Print the updated results.
-  print(await dogs()); // Prints Fido with age 42.
+  if (kDebugMode) {
+    print(await dogs());
+  } // Prints Fido with age 42.
 
   // Create another Dog and add it to the dogs table
-  var spot = Dog(
-    id: 1,
-    name: 'Spot',
-    age: 27,
-  );
+  var spot = Dog(id: 1, name: 'Spot', age: 27);
 
   await insertDog(spot);
 
-  print(await dogs());
+  if (kDebugMode) {
+    print(await dogs());
+  }
 
-
-// Delete Fido from the database.
+  // Delete Fido from the database.
   await deleteDog(fido.id);
 
   // Print the list of dogs (empty).
-  print(await dogs());
+  if (kDebugMode) {
+    print(await dogs());
+  }
 }
 
 class Dog {
@@ -137,20 +130,12 @@ class Dog {
   final String name;
   final int age;
 
-  Dog({
-    required this.id,
-    required this.name,
-    required this.age,
-  });
+  Dog({required this.id, required this.name, required this.age});
 
   // Convert a Dog into a Map. The keys must correspond to the names of the
   // columns in the database.
   Map<String, Object?> toMap() {
-    return {
-      'id': id,
-      'name': name,
-      'age': age,
-    };
+    return {'id': id, 'name': name, 'age': age};
   }
 
   // Implement toString to make it easier to see information about

@@ -1,3 +1,5 @@
+import 'package:best_eleven_scorer/player.dart';
+
 import 'bonus_stipulation.dart';
 import 'symbol.dart';
 import 'team.dart';
@@ -10,57 +12,39 @@ class ForEachSymbol implements BonusStipulation {
 
   @override
   int calculateBonus(Team team) {
-    final int bonusPoints = 1;
-
-    debugPrint('entering calculateBonus for ForEachSymbol for $symbol');
-
     int numberOfSymbol = 0;
 
     switch (symbol) {
       case Symbol.skill:
         for (var player in team.players) {
-          numberOfSymbol += player.numberOfSkills;
-          if (player.chosenSymbol == Symbol.skill) {
-            numberOfSymbol++;
-          }
+          numberOfSymbol += allPlayerStats[player.index].numberOfSkills;
         }
 
         break;
 
       case Symbol.savvy:
         for (var player in team.players) {
-          numberOfSymbol += player.numberOfSavvies;
-          if (player.chosenSymbol == Symbol.savvy) {
-            numberOfSymbol++;
-          }
+          numberOfSymbol += allPlayerStats[player.index].numberOfSavvies;
         }
 
         break;
 
       case Symbol.speed:
         for (var player in team.players) {
-          numberOfSymbol += player.numberOfSpeeds;
-          if (player.chosenSymbol == Symbol.speed) {
-            numberOfSymbol++;
-          }
+          numberOfSymbol += allPlayerStats[player.index].numberOfSpeeds;
         }
 
         break;
 
       case Symbol.strength:
         for (var player in team.players) {
-          numberOfSymbol += player.numberOfStrengths;
-          if (player.chosenSymbol == Symbol.strength) {
-            numberOfSymbol++;
-          }
+          numberOfSymbol += allPlayerStats[player.index].numberOfStrengths;
         }
 
         break;
     }
 
-    debugPrint(
-      'bonus for ForEachSymbol for $symbol is ${bonusPoints * numberOfSymbol}',
-    );
-    return (bonusPoints * numberOfSymbol);
+    debugPrint('bonus for ForEachSymbol for $symbol is $numberOfSymbol');
+    return numberOfSymbol;
   }
 }

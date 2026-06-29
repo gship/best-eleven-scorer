@@ -1,7 +1,7 @@
-import 'package:best_xi_scorer/name_tag.dart';
+import '../name_tag.dart';
 import 'package:flutter/material.dart';
 import '../core.dart';
-import '../main_contain.dart';
+import '../background_container.dart';
 import '../team.dart';
 import '../best_eleven_button.dart';
 import '../routes.dart';
@@ -16,30 +16,38 @@ class KeeperSelectPage extends StatefulWidget {
 }
 
 class _KeeperSelectPageState extends State<KeeperSelectPage> {
-  int? selectedKeeper; // Holds the selected keeper index
+  int selectedKeeperIndex = -1; // Holds the selected keeper index
+
+  @override
+  void initState() {
+    super.initState();
+    if (core.inReview) {
+      reset();
+    }
+  }
 
   bool isSelectable(int index) {
-    return ((selectedKeeper == null &&
+    return ((selectedKeeperIndex == -1 &&
             !core.selectedKeepers.contains(allKeepers[index])) ||
-        selectedKeeper == index);
+        selectedKeeperIndex == index);
   }
 
   void reset() {
     // Initialize the selected keeper from teams
-    selectedKeeper = teams[core.currentPlayer].keeper?.index;
+    selectedKeeperIndex = teams[core.currentPlayer].keeperIndex;
     core.selectedKeepers.remove(teams[core.currentPlayer].keeper);
-    teams[core.currentPlayer].keeper?.playingPosition = null;
+    allPlayerStats[teams[core.currentPlayer].keeper!.allPlayersIndex]
+        .playingPosition = null;
     teams[core.currentPlayer].keeper = null;
+    teams[core.currentPlayer].keeperIndex = -1;
   }
 
   @override
   Widget build(BuildContext context) {
-    return mainContain(
+    return backgroundContainer(
       context,
-      AssetImage('images/background.png'),
+      AssetImage('images/background.webp'),
       content(context),
-      false,
-      true,
     );
   }
 
@@ -52,7 +60,7 @@ class _KeeperSelectPageState extends State<KeeperSelectPage> {
           const SizedBox(height: 20),
           nameTag(teams[core.currentPlayer].gamePlayer),
           //const SizedBox(height: 20),
-          Image(image: AssetImage('images/keeper_icon.png'), width: 50),
+          Image(image: AssetImage('images/keeper_icon.webp'), width: 50),
           const SizedBox(height: 20),
           const Text(
             'SELECT KEEPER',
@@ -65,7 +73,7 @@ class _KeeperSelectPageState extends State<KeeperSelectPage> {
           ),
           Expanded(
             child: GridView.count(
-              crossAxisCount: 2,
+              crossAxisCount: 3,
               crossAxisSpacing: 10.0,
               mainAxisSpacing: 10.0,
               //shrinkWrap: true,
@@ -75,11 +83,13 @@ class _KeeperSelectPageState extends State<KeeperSelectPage> {
                       isSelectable(index)
                           ? () {
                             setState(() {
-                              if (selectedKeeper == index) {
-                                selectedKeeper =
-                                    null; // Deselect if already selected
+                              // if already selected
+                              if (selectedKeeperIndex == index) {
+                                // clear selected keeper
+                                selectedKeeperIndex = -1;
                               } else {
-                                selectedKeeper = index; // Select a new keeper
+                                // save selected keeper
+                                selectedKeeperIndex = index;
                               }
                             });
                           }
@@ -91,12 +101,12 @@ class _KeeperSelectPageState extends State<KeeperSelectPage> {
                       decoration: BoxDecoration(
                         image: DecorationImage(
                           image: AssetImage(
-                            'images/keepers/${allKeepers[index].name.replaceAll(' ', '_')}.png',
+                            'images/keepers/${allKeepers[index].name.replaceAll(' ', '_')}.webp',
                           ),
                           fit: BoxFit.cover,
                         ),
                         border:
-                            (selectedKeeper == index)
+                            (selectedKeeperIndex == index)
                                 ? Border.all(color: Colors.yellow, width: 2.5)
                                 : null,
                         borderRadius: BorderRadius.circular(14),
@@ -124,23 +134,30 @@ class _KeeperSelectPageState extends State<KeeperSelectPage> {
               // Next button to go to the next scoring category
               BestElevenButton(
                 buttonText: 'NEXT',
-                onPressed:
-                    selectedKeeper == null
-                        ? null // Disable button if no keeper is selected
-                        : () {
-                          teams[core.currentPlayer].addPlayer(
-                            allKeepers[selectedKeeper!],
-                            Position.keeper,
-                          );
-                          core.selectedKeepers.add(allKeepers[selectedKeeper!]);
-                          Navigator.pushNamed(
-                            context,
-                            Routes.defendersSelectPage,
-                          ).then((_) {
-                            debugPrint('I\'ve been popped keeper page');
-                            reset();
-                          });
-                        },
+                onPressed: () {
+                  if (selectedKeeperIndex != -1) {
+                    teams[core.currentPlayer].addPlayer(
+                      allKeepers[selectedKeeperIndex],
+                      Position.keeper,
+                    );
+                    core.selectedKeepers.add(allKeepers[selectedKeeperIndex]);
+
+                    if (core.inReview && !core.inManagerReset) {
+                      Navigator.pop(context); // Go back to the review page
+                    } else {
+                      var route = defendersSelectPage;
+                      if (core.currentPlayer == 1 && core.playingSolo) {
+                        route = automaTeamSelectPage;
+                      }
+                      Navigator.pushNamed(context, route).then((_) {
+                        debugPrint(
+                          "Returned from $route page, popping to root",
+                        );
+                        reset();
+                      });
+                    }
+                  }
+                },
               ),
             ],
           ),

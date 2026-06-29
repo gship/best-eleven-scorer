@@ -7,8 +7,6 @@ final highLowBasePoints = HighLowBasePoints();
 class HighLowBasePoints implements BonusStipulation {
   @override
   int calculateBonus(Team team) {
-    debugPrint('entering calculateBonus for HighLowBasePoints');
-
     int lowPoints = 1000;
     int highPoints = 0;
 

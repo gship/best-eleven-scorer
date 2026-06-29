@@ -3,7 +3,7 @@ import '../core.dart';
 import '../routes.dart';
 import '../team.dart';
 import '../best_eleven_button.dart';
-import '../main_contain.dart';
+import '../background_container.dart';
 import '../last_players_db.dart';
 
 class NameEntryPage extends StatefulWidget {
@@ -27,7 +27,6 @@ class _NameEntryPageState extends State<NameEntryPage> {
   }
 
   void prepopulatePlayerNames() async {
-    debugPrint('prepopulating player names');
     List<LastPlayers> lastPlayers = await lastPlayersDatabase.getLastPlayers();
     if (lastPlayers.isNotEmpty && lastPlayers[0].count == core.numPlayers) {
       if (core.numPlayers == 4) {
@@ -58,15 +57,11 @@ class _NameEntryPageState extends State<NameEntryPage> {
   // Function to check if all player names are entered
   bool arePlayerNamesEntered() {
     for (var controller in playerNameControllers) {
-      debugPrint('controller.text = ${controller.text}');
-      debugPrint('controller.text.isEmpty = ${controller.text.isEmpty}');
       if (controller.text.isEmpty) {
-        debugPrint('returning false');
         return false;
       }
     }
 
-    debugPrint('returning true');
     return true;
   }
 
@@ -76,6 +71,10 @@ class _NameEntryPageState extends State<NameEntryPage> {
     if (core.numPlayers >= 1) {
       lastPlayers.player1 = playerNameControllers[0].text;
       teams.add(Team(playerNameControllers[0].text));
+      if (core.playingSolo) {
+        teams.add(Team('Automa'));
+        teams[1].isAutoma = true;
+      }
     }
     if (core.numPlayers >= 2) {
       lastPlayers.player2 = playerNameControllers[1].text;
@@ -95,12 +94,12 @@ class _NameEntryPageState extends State<NameEntryPage> {
 
   @override
   Widget build(BuildContext context) {
-    return mainContain(
+    precacheImage(backgroundImage, context);
+    
+    return backgroundContainer(
       context,
-      AssetImage('images/home.png'),
+      AssetImage('images/home.webp'),
       content(context),
-      true,
-      false,
     );
   }
 
@@ -111,7 +110,7 @@ class _NameEntryPageState extends State<NameEntryPage> {
           padding: const EdgeInsets.only(top: 50, bottom: 30),
           child: SizedBox(
             height: 100,
-            child: Image(image: AssetImage('images/best_xi_logo.png')),
+            child: Image(image: AssetImage('images/best_xi_logo.webp')),
           ),
         ),
         SizedBox(
@@ -131,12 +130,8 @@ class _NameEntryPageState extends State<NameEntryPage> {
                       fontSize: 24.0,
                       color: Colors.white,
                     ),
-                    onChanged: (String str) {
-                      debugPrint('text changed to $str');
-                    },
-                    onSubmitted: (String str) {
-                      debugPrint('text submitted to $str');
-                    },
+                    onChanged: (String str) {},
+                    onSubmitted: (String str) {},
                     controller: playerNameControllers[index],
                     decoration: InputDecoration(
                       alignLabelWithHint: true,
@@ -184,20 +179,17 @@ class _NameEntryPageState extends State<NameEntryPage> {
             BestElevenButton(
               buttonText: 'NEXT',
               onPressed: () {
-                debugPrint('NEXT button pressed');
                 if (arePlayerNamesEntered()) {
                   savePlayerNames();
-                  debugPrint(
-                    'going to money page, current player = ${core.currentPlayer}',
-                  );
+                  core.inReview = false;
 
                   // Navigate to the next page to start the game (or handle game logic)
-                  Navigator.pushNamed(context, Routes.moneyEntryPage).then((_) {
-                    debugPrint('I\'ve been popped name entry page');
+                  Navigator.pushNamed(context, moneyEntryPage).then((_) {
+                    debugPrint(
+                      "Returned from money entry page, popping to root",
+                    );
                     teams.clear();
                   });
-                } else {
-                  debugPrint('not all names entered');
                 }
               },
             ),

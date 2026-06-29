@@ -1,6 +1,6 @@
-import 'package:best_xi_scorer/pages/score_page.dart';
-import 'package:best_xi_scorer/player.dart';
-import 'package:best_xi_scorer/tac_card.dart';
+import '../pages/score_page.dart';
+import '../player.dart';
+import '../tac_card.dart';
 import 'package:flutter/material.dart';
 //import 'package:google_fonts/google_fonts.dart';
 import '../core.dart';

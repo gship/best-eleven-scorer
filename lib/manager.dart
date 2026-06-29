@@ -1,64 +1,88 @@
-import 'color.dart';
-import 'bonus_stipulation.dart';
-import 'cards_with_color.dart';
-
 final List<Manager> allManagers = <Manager>[
-  Manager(
-    'The Handyman',
-    Color.yellow,
-    4,
-    2,
-    4,
-    CardsWithColor(Color.yellow),
-    true,
-  ),
-  Manager(
-    'Sir Outrage',
-    Color.teal,
-    5,
-    5,
-    5,
-    CardsWithColor(Color.teal),
-    false,
-  ),
-  Manager(
-    'The Nun',
-    Color.orange,
-    4,
-    3,
-    3,
-    CardsWithColor(Color.orange),
-    false,
-  ),
-  Manager('The Brain', Color.red, 3, 4, 3, CardsWithColor(Color.red), false),
-  Manager('Sheikh', Color.purple, 4, 4, 2, CardsWithColor(Color.purple), false),
+  Manager(0, 'The Handyman', true, true, 0),
+  Manager(1, 'Sir Outrage', false, false, -1),
+  Manager(2, 'The Nun', false, true, 1),
+  Manager(3, 'The Brain', false, true, 2),
+  Manager(4, 'Sheikh', false, true, 3),
+  Manager(5, 'Metalhead', false, true, 4),
+  Manager(6, 'The Trailblazer', true, true, 5),
+  Manager(7, 'The Special One', true, true, 6),
+  Manager(8, 'The Boss', false, true, 7),
+  Manager(9, 'Teodoro Reata', false, true, 8),
 ];
 
-void setManagerIndices() {
-  for (int i = 0; i < allManagers.length; ++i) {
-    allManagers[i].index = i;
+final List<Manager> allManagersWithFormations = <Manager>[
+  allManagers[0],
+  allManagers[1],
+  allManagers[2],
+  allManagers[3],
+  allManagers[4],
+  allManagers[5],
+];
+
+final List<Manager> allManagersWhichAreTiles = <Manager>[
+  allManagers[0],
+  allManagers[2],
+  allManagers[3],
+  allManagers[4],
+  allManagers[5],
+  allManagers[6],
+  allManagers[7],
+  allManagers[8],
+  allManagers[9],
+];
+
+final List<Formation> allFormations = <Formation>[
+  Formation(0, 4, 2, 4, 0),
+  Formation(1, 5, 5, 5, -1),
+  Formation(2, 4, 3, 3, 2),
+  Formation(3, 3, 4, 3, 3),
+  Formation(4, 4, 4, 2, 4),
+  Formation(5, 3, 5, 2, 5),
+];
+
+final List<Formation> allFormationsForTiles = <Formation>[
+  allFormations[0],
+  allFormations[2],
+  allFormations[3],
+  allFormations[4],
+  allFormations[5],
+];
+
+class Formation {
+  final int index;
+  final int numberOfDefenders;
+  final int numberOfMidfielders;
+  final int numberOfForwards;
+  final int tileIndex;
+
+  Formation(
+    this.index,
+    this.numberOfDefenders,
+    this.numberOfMidfielders,
+    this.numberOfForwards,
+    this.tileIndex,
+  );
+
+  @override
+  String toString() {
+    return '$numberOfDefenders - $numberOfMidfielders - $numberOfForwards';
   }
 }
 
 class Manager {
-  late int index;
-  String name;
-  Color color;
-  int numberOfDefenders;
-  int numberOfMidfielders;
-  int numberOfForwards;
-
-  BonusStipulation bonusStipulation;
-  bool addOneToSymbolCounts;
+  final int index;
+  final String name;
+  final bool addOneToSymbolCounts;
+  final bool isTile;
+  final int tileIndex;
 
   Manager(
+    this.index,
     this.name,
-    this.color,
-    this.numberOfDefenders,
-    this.numberOfMidfielders,
-    this.numberOfForwards,
-    this.bonusStipulation,
     this.addOneToSymbolCounts,
+    this.isTile,
+    this.tileIndex,
   );
 
   @override

@@ -90,12 +90,12 @@ BEGIN
         BLOCK "040904e4"
         BEGIN
             VALUE "CompanyName", "com.example" "\0"
-            VALUE "FileDescription", "best_xi_scorer" "\0"
+            VALUE "FileDescription", "best_eleven_scorerorer" "\0"
             VALUE "FileVersion", VERSION_AS_STRING "\0"
-            VALUE "InternalName", "best_xi_scorer" "\0"
+            VALUE "InternalName", "best_eleven_scorerorer" "\0"
             VALUE "LegalCopyright", "Copyright (C) 2024 com.example. All rights reserved." "\0"
-            VALUE "OriginalFilename", "best_xi_scorer.exe" "\0"
-            VALUE "ProductName", "best_xi_scorer" "\0"
+            VALUE "OriginalFilename", "best_eleven_scorerorer.exe" "\0"
+            VALUE "ProductName", "best_eleven_scorerorer" "\0"
             VALUE "ProductVersion", VERSION_AS_STRING "\0"
         END
     END

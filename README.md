@@ -1,4 +1,4 @@
-# best_xi_scorer
+# best_eleven_scorer
 
 A new Flutter project.
 

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../main_contain.dart';
+import '../background_container.dart';
 import '../team.dart';
 import '../best_eleven_button.dart';
 import '../save_game.dart';
@@ -17,7 +17,7 @@ class SavedGamePage extends StatefulWidget {
 }
 
 class _SavedGamePageState extends State<SavedGamePage> {
-  getSavedGame(int savedGameId) async {
+  Future<void> getSavedGame(int savedGameId) async {
     await saveGame.getSavedGame(savedGameId);
     setState(() {});
   }
@@ -31,12 +31,10 @@ class _SavedGamePageState extends State<SavedGamePage> {
 
   @override
   Widget build(BuildContext context) {
-    return mainContain(
+    return backgroundContainer(
       context,
-      AssetImage('images/background.png'),
+      AssetImage('images/background.webp'),
       content(context),
-      false,
-      true,
     );
   }
 
@@ -83,13 +81,14 @@ class _SavedGamePageState extends State<SavedGamePage> {
             Expanded(
               child: Wrap(
                 spacing: 8.0,
+                runSpacing: 7.0,
                 children:
                     players.map((player) {
                       return SizedBox(
                         width: 70,
                         height: 70,
                         child: Image.asset(
-                          'images/players/${(allPlayers[player.index].index < 9) ? (allPlayers[player.index].index + 1).toString().padLeft(2, '0') : allPlayers[player.index].index + 1}.png',
+                          'images/players/${(allPlayers[player.index].index < 9) ? (allPlayers[player.index].index + 1).toString().padLeft(2, '0') : allPlayers[player.index].index + 1}.webp',
                         ),
                       );
                     }).toList(),
@@ -133,7 +132,7 @@ class _SavedGamePageState extends State<SavedGamePage> {
                                 width: 30,
                                 child: Image(
                                   image: AssetImage(
-                                    'images/money_icon_big.png',
+                                    'images/money_icon_big.webp',
                                   ),
                                   fit: BoxFit.contain,
                                 ),
@@ -163,7 +162,9 @@ class _SavedGamePageState extends State<SavedGamePage> {
                                 height: 30,
                                 width: 30,
                                 child: Image(
-                                  image: AssetImage('images/tactical_icon.png'),
+                                  image: AssetImage(
+                                    'images/tactical_icon.webp',
+                                  ),
                                   fit: BoxFit.contain,
                                 ),
                               ),
@@ -202,27 +203,27 @@ class _SavedGamePageState extends State<SavedGamePage> {
                             ],
                           ),
                           single(
-                            'images/manager_icon.png',
-                            'images/managers/${allManagers[savedTeams[index].manager!.index].name.replaceAll(' ', '_')}.png',
+                            'images/manager_icon.webp',
+                            'images/managers/${allManagers[savedTeams[index].manager!.index].name.replaceAll(' ', '_')}.webp',
                           ),
                           single(
-                            'images/keeper_icon.png',
-                            'images/keepers/${allKeepers[savedTeams[index].keeper!.index].name.replaceAll(' ', '_')}.png',
+                            'images/keeper_icon.webp',
+                            'images/keepers/${allKeepers[savedTeams[index].keeper!.index].name.replaceAll(' ', '_')}.webp',
                           ),
                           players(
-                            'images/defender_icon.png',
+                            'images/defender_icon.webp',
                             savedTeams[index].defenders,
                           ),
                           players(
-                            'images/midfielder_icon.png',
+                            'images/midfielder_icon.webp',
                             savedTeams[index].midfielders,
                           ),
                           players(
-                            'images/forward_icon.png',
+                            'images/forward_icon.webp',
                             savedTeams[index].forwards,
                           ),
                           players(
-                            'images/blank_position_icon.png',
+                            'images/blank_position_icon.webp',
                             savedTeams[index].hand,
                           ),
                         ],
@@ -236,7 +237,10 @@ class _SavedGamePageState extends State<SavedGamePage> {
             Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Image(image: AssetImage('images/best_xi_logo.png'), height: 60),
+                Image(
+                  image: AssetImage('images/best_xi_logo.webp'),
+                  height: 60,
+                ),
                 const SizedBox(height: 15),
                 scorePad(savedTeams, MainAxisAlignment.center),
               ],

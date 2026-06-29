@@ -1,12 +1,12 @@
-import 'package:best_xi_scorer/name_tag.dart';
 import 'package:flutter/material.dart';
 import '../core.dart';
-import '../main_contain.dart';
+import '../background_container.dart';
 import '../team.dart';
 import '../best_eleven_button.dart';
 import '../routes.dart';
 import '../player.dart';
 import '../position.dart';
+import '../name_tag.dart';
 
 class PlayersInHandPage extends StatefulWidget {
   const PlayersInHandPage({super.key});
@@ -19,36 +19,27 @@ class _PlayersInHandPageState extends State<PlayersInHandPage> {
   List<int> playersInHand = List.empty(
     growable: true,
   ); // Holds the selected player indices
-  bool savedPlayersInHand = false;
 
   @override
   void initState() {
     super.initState();
+    if (core.inReview) {
+      reset();
+    }
   }
 
   void reset() {
     // Initialize the playersInHand list from teams
     playersInHand.clear();
     for (var player in teams[core.currentPlayer].hand) {
-      playersInHand.add(player.benchIndex);
+      playersInHand.add(player.index);
       // Reset the position of the player
-      player.playingPosition = null;
+      allPlayerStats[player.index].playingPosition = null;
       // Remove the selected defender from core
       core.playersInHand.remove(player);
     }
     // Clear the team's bench
     teams[core.currentPlayer].hand.clear();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return mainContain(
-      context,
-      AssetImage('images/background.png'),
-      content(context),
-      false,
-      true,
-    );
   }
 
   bool isSelectable(int index) {
@@ -60,6 +51,15 @@ class _PlayersInHandPageState extends State<PlayersInHandPage> {
                 !core.playersInHand.contains(player));
   }
 
+  @override
+  Widget build(BuildContext context) {
+    return backgroundContainer(
+      context,
+      AssetImage('images/background.webp'),
+      content(context),
+    );
+  }
+
   Widget content(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(20.0),
@@ -68,8 +68,10 @@ class _PlayersInHandPageState extends State<PlayersInHandPage> {
         children: [
           const SizedBox(height: 20),
           nameTag(teams[core.currentPlayer].gamePlayer),
-          const SizedBox(height: 20),
-          Image(image: AssetImage('images/blank_position_icon.png'), width: 50),
+          Image(
+            image: AssetImage('images/blank_position_icon.webp'),
+            width: 50,
+          ),
           const SizedBox(height: 20),
           const Text(
             'SELECT PLAYERS IN HAND',
@@ -82,7 +84,7 @@ class _PlayersInHandPageState extends State<PlayersInHandPage> {
           ),
           Expanded(
             child: GridView.count(
-              crossAxisCount: 3,
+              crossAxisCount: 4,
               crossAxisSpacing: 10.0,
               mainAxisSpacing: 10.0,
               //shrinkWrap: true,
@@ -92,12 +94,13 @@ class _PlayersInHandPageState extends State<PlayersInHandPage> {
                       isSelectable(index)
                           ? () {
                             setState(() {
+                              // if already selected
                               if (playersInHand.contains(index)) {
-                                playersInHand.remove(
-                                  index,
-                                ); // Deselect if already selected
+                                // remove player
+                                playersInHand.remove(index);
                               } else {
-                                playersInHand.add(index); // Select player
+                                // add player
+                                playersInHand.add(index);
                               }
                             });
                           }
@@ -109,12 +112,12 @@ class _PlayersInHandPageState extends State<PlayersInHandPage> {
                       decoration: BoxDecoration(
                         border:
                             playersInHand.contains(index)
-                                ? Border.all(color: Colors.yellow, width: 2.0)
+                                ? Border.all(color: Colors.yellow, width: 2.5)
                                 : null,
-                        borderRadius: BorderRadius.all(Radius.circular(15.0)),
+                        borderRadius: BorderRadius.all(Radius.circular(14.0)),
                       ),
                       child: Image.asset(
-                        'images/players/${(allPlayers[index].index < 9) ? (allPlayers[index].index + 1).toString().padLeft(2, '0') : allPlayers[index].index + 1}.png',
+                        'images/players/${(allPlayers[index].index < 9) ? (allPlayers[index].index + 1).toString().padLeft(2, '0') : allPlayers[index].index + 1}.webp',
                         width: 20, // Adjust image size
                         height: 20,
                       ),
@@ -132,40 +135,32 @@ class _PlayersInHandPageState extends State<PlayersInHandPage> {
               // Back button to go back to previous page
               BestElevenButton(
                 buttonText: 'BACK',
-                onPressed: () {
-                  Navigator.pop(context); // Go back to the previous page
-                },
+                onPressed:
+                    core.inReview
+                        ? null
+                        : () {
+                          Navigator.pop(
+                            context,
+                          ); // Go back to the previous page
+                        },
               ),
               // Next button to go to the next scoring category
               BestElevenButton(
                 buttonText: 'NEXT',
                 onPressed: () {
-                  if (!savedPlayersInHand) {
-                    for (var temp in playersInHand) {
-                      Player player = allPlayers[temp];
-                      teams[core.currentPlayer].addPlayer(
-                        player,
-                        Position.bench,
-                      );
-                      core.playersInHand.add(player);
-                    }
-
-                    savedPlayersInHand = true;
+                  for (var index in playersInHand) {
+                    Player player = allPlayers[index];
+                    teams[core.currentPlayer].addPlayer(player, Position.bench);
+                    core.playersInHand.add(player);
                   }
-                  if (core.currentPlayer < (core.numPlayers - 1)) {
-                    // more players
-                    ++core.currentPlayer;
-                    Navigator.pushNamed(context, Routes.moneyEntryPage).then((
-                      _,
-                    ) {
-                      debugPrint('I\'ve been popped players in hand page');
-                      --core.currentPlayer;
-                      reset();
-                    });
+
+                  if (core.inReview && !core.inManagerReset) {
+                    Navigator.pop(context);
                   } else {
-                    // last or only player
-                    Navigator.pushNamed(context, Routes.scorePage).then((_) {
-                      debugPrint('I\'ve been popped players in hand page');
+                    Navigator.pushNamed(context, reviewPage).then((_) {
+                      debugPrint(
+                        "Returned to players in hand page from review page, popping to root",
+                      );
                       reset();
                     });
                   }

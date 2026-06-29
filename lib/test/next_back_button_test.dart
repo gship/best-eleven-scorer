@@ -2,12 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class NextBackButton extends StatelessWidget {
-  const NextBackButton(
-      {required this.buttonText,
-        required this.onPressed,
-        required this.font,
-        this.bold = false,
-        super.key});
+  const NextBackButton({
+    required this.buttonText,
+    required this.onPressed,
+    required this.font,
+    this.bold = false,
+    super.key,
+  });
 
   final void Function()? onPressed;
   final String buttonText;
@@ -19,8 +20,8 @@ class NextBackButton extends StatelessWidget {
     return ElevatedButton(
       style: ButtonStyle(
         padding: WidgetStatePropertyAll(EdgeInsets.fromLTRB(40, 17, 40, 17)),
-        shape: WidgetStatePropertyAll(RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(32.0))
+        shape: WidgetStatePropertyAll(
+          RoundedRectangleBorder(borderRadius: BorderRadius.circular(32.0)),
         ),
         minimumSize: const WidgetStatePropertyAll(Size(100, 60)),
         backgroundColor: WidgetStateProperty.all(Colors.black),
@@ -52,5 +53,3 @@ class NextBackButton extends StatelessWidget {
     );
   }
 }
-
-

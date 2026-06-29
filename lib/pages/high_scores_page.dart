@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../high_scores.dart';
 import '../best_eleven_button.dart';
-import '../main_contain.dart';
+import '../background_container.dart';
 import 'clear_high_scores_confirmation_dialog.dart';
 
 class HighScoresPage extends StatefulWidget {
@@ -19,18 +19,14 @@ class _HighScoresPageState extends State<HighScoresPage> {
 
   @override
   Widget build(BuildContext context) {
-    return mainContain(
+    return backgroundContainer(
       context,
-      AssetImage('images/background.png'),
+      AssetImage('images/background.webp'),
       content(context),
-      false,
-      true,
     );
   }
 
   Widget content(BuildContext context) {
-    debugPrint('building HighScoresPage');
-
     return Padding(
       padding: const EdgeInsets.all(20.0),
       child: Column(
@@ -80,13 +76,9 @@ class _HighScoresPageState extends State<HighScoresPage> {
                 onPressed: () async {
                   bool? clearHighScores =
                       await showClearHighScoresConfirmationDialog(context);
-                  debugPrint('clearHighScores = $clearHighScores');
                   if (clearHighScores) {
                     await highScores.deleteHighScores();
                   }
-                  debugPrint(
-                    'highScores.length = ${highScores.highScores.length}',
-                  );
                   setState(() {});
                 },
               ),

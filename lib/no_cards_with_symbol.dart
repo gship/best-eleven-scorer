@@ -1,3 +1,5 @@
+import 'package:best_eleven_scorer/player.dart';
+
 import 'bonus_stipulation.dart';
 import 'symbol.dart';
 import 'team.dart';
@@ -10,20 +12,16 @@ class NoCardsWithSymbol implements BonusStipulation {
 
   @override
   int calculateBonus(Team team) {
-    debugPrint(
-      'entering calculateBonus for NoCardsWithSymbol for symbol = $symbol',
-    );
-    int returnPoints = 0;
+    int retVal = 0;
 
-    int numberOfCards = 0;
+    bool symbolFound = false;
 
     switch (symbol) {
       case Symbol.skill:
         for (var player in team.players) {
-          if (player.numberOfSkills > 0) {
-            numberOfCards++;
-          } else if (player.chosenSymbol == Symbol.skill) {
-            numberOfCards++;
+          if (allPlayerStats[player.index].numberOfSkills > 0) {
+            symbolFound = true;
+            break;
           }
         }
 
@@ -31,10 +29,9 @@ class NoCardsWithSymbol implements BonusStipulation {
 
       case Symbol.savvy:
         for (var player in team.players) {
-          if (player.numberOfSavvies > 0) {
-            numberOfCards++;
-          } else if (player.chosenSymbol == Symbol.savvy) {
-            numberOfCards++;
+          if (allPlayerStats[player.index].numberOfSavvies > 0) {
+            symbolFound = true;
+            break;
           }
         }
 
@@ -42,10 +39,9 @@ class NoCardsWithSymbol implements BonusStipulation {
 
       case Symbol.speed:
         for (var player in team.players) {
-          if (player.numberOfSpeeds > 0) {
-            numberOfCards++;
-          } else if (player.chosenSymbol == Symbol.speed) {
-            numberOfCards++;
+          if (allPlayerStats[player.index].numberOfSpeeds > 0) {
+            symbolFound = true;
+            break;
           }
         }
 
@@ -53,23 +49,20 @@ class NoCardsWithSymbol implements BonusStipulation {
 
       case Symbol.strength:
         for (var player in team.players) {
-          if (player.numberOfStrengths > 0) {
-            numberOfCards++;
-          } else if (player.chosenSymbol == Symbol.strength) {
-            numberOfCards++;
+          if (allPlayerStats[player.index].numberOfStrengths > 0) {
+            symbolFound = true;
+            break;
           }
         }
 
         break;
     }
 
-    if (numberOfCards == 0) {
-      returnPoints = 7;
+    if (!symbolFound) {
+      retVal = 7;
     }
 
-    debugPrint(
-      'bonus for NoCardsWithSymbol for symbol = $symbol is $returnPoints',
-    );
-    return returnPoints;
+    debugPrint('bonus for NoCardsWithSymbol for symbol = $symbol is $retVal');
+    return retVal;
   }
 }

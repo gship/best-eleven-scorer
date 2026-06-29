@@ -8,7 +8,6 @@ class CardsOfColor {
   CardsOfColor(this.color);
 
   int cardsOfColor(Team team, {bool excludeKeeper = false}) {
-    debugPrint('entering cardsOfColor for color = $color');
     int numberOfCards = 0;
     for (var player in team.players) {
       if (player.color == color) {

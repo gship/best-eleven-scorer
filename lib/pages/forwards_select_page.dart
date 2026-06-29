@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../core.dart';
 import '../name_tag.dart';
-import '../main_contain.dart';
+import '../background_container.dart';
 import '../team.dart';
 import '../best_eleven_button.dart';
 import '../routes.dart';
@@ -23,49 +23,68 @@ class _ForwardsSelectPageState extends State<ForwardsSelectPage> {
   @override
   void initState() {
     super.initState();
+    if (core.inReview) {
+      reset();
+    }
   }
 
   void reset() {
     // Initialize the selected forward list from teams
+    debugPrint(
+      "Resetting forwards select page, core.currentPlayer = ${core.currentPlayer}",
+    ); //,  = teams[${core.currentPlayer}].forwards count = ${teams[core.currentPlayer].forwards.length}");
     selectedForwards.clear();
     for (var forward in teams[core.currentPlayer].forwards) {
+      debugPrint("forward =  ${forward.name}");
+      // Add team forward to the selected forwards
       selectedForwards.add(forward.forwardsIndex);
-      forward.playingPosition = null;
+      // Reset the playing position of the forward
+      allPlayerStats[forward.index].playingPosition = null;
     }
+    debugPrint(
+      "Selected forwards after reset: ${selectedForwards.map((index) => allForwards[index].name).join(', ')}",
+    );
     // Clear the selected forward from teams
     teams[core.currentPlayer].forwards.clear();
     // Clear the selected forward from core
     core.selectedForwards.clear();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return mainContain(
-      context,
-      AssetImage('images/background.png'),
-      content(context),
-      false,
-      true,
+    debugPrint(
+      "Selected forwards in core after reset: ${core.selectedForwards.map((player) => player.name).join(', ')}",
     );
   }
 
   bool isSelectable(int index) {
     Player player = allForwards[index];
-    if (index < 20) {}
-    bool retVal =
-        (((selectedForwards.length <
-                        teams[core.currentPlayer].manager!.numberOfForwards &&
-                    ((teams[core.currentPlayer].defenders.length +
-                            teams[core.currentPlayer].midfielders.length +
-                            selectedForwards.length) <
-                        10)) ||
-                selectedForwards.contains(index)) &&
+    // debugPrint('selectedForwards.contains: ${selectedForwards.contains(index)}');
+    logger.d('selectedForwards.length: ${selectedForwards.length}');
+    // debugPrint('formation numberOfForwards: ${teams[core.currentPlayer].formation!.numberOfForwards}');
+    // debugPrint('number of defenders: ${teams[core.currentPlayer].defenders.length}');
+    logger.d('number of midfielders: ${teams[core.currentPlayer].midfielders.length}');
+    logger.d('number of forwards: ${teams[core.currentPlayer].forwards.length}');
+    // debugPrint('playersInHand contains player: ${core.playersInHand.contains(player)}');
+    // debugPrint('selectedDefenders contains player: ${core.selectedDefenders.contains(player)}');
+    // debugPrint('selectedMidfielders contains player: ${core.selectedMidfielders.contains(player)}');
+    // debugPrint('selectedForwards contains player: ${core.selectedForwards.contains(player)}');
+    return (selectedForwards.contains(index) ||
+        ((selectedForwards.length <
+                teams[core.currentPlayer].formation!.numberOfForwards) &&
+            ((teams[core.currentPlayer].defenders.length +
+                    teams[core.currentPlayer].midfielders.length +
+                    selectedForwards.length) <
+                10) &&
             !core.selectedDefenders.contains(player) &&
             !core.selectedMidfielders.contains(player) &&
             !core.selectedForwards.contains(player) &&
-            !core.playersInHand.contains(player));
+            !core.playersInHand.contains(player)));
+  }
 
-    return retVal;
+  @override
+  Widget build(BuildContext context) {
+    return backgroundContainer(
+      context,
+      AssetImage('images/background.webp'),
+      content(context),
+    );
   }
 
   Widget content(BuildContext context) {
@@ -76,7 +95,7 @@ class _ForwardsSelectPageState extends State<ForwardsSelectPage> {
         children: [
           const SizedBox(height: 20),
           nameTag(teams[core.currentPlayer].gamePlayer),
-          Image(image: AssetImage('images/forward_icon.png'), width: 50),
+          Image(image: AssetImage('images/forward_icon.webp'), width: 50),
           const SizedBox(height: 20),
           const Text(
             'SELECT FORWARDS',
@@ -89,7 +108,7 @@ class _ForwardsSelectPageState extends State<ForwardsSelectPage> {
           ),
           Expanded(
             child: GridView.count(
-              crossAxisCount: 3,
+              crossAxisCount: 4,
               crossAxisSpacing: 10.0,
               mainAxisSpacing: 10.0,
               children: List.generate(allForwards.length, (index) {
@@ -98,12 +117,13 @@ class _ForwardsSelectPageState extends State<ForwardsSelectPage> {
                       isSelectable(index)
                           ? () {
                             setState(() {
+                              // if already selected
                               if (selectedForwards.contains(index)) {
-                                selectedForwards.remove(
-                                  index,
-                                ); // deselect if already selected
+                                // remove forward
+                                selectedForwards.remove(index);
                               } else {
-                                selectedForwards.add(index); // select forward
+                                // add forward
+                                selectedForwards.add(index);
                               }
                             });
                           }
@@ -120,7 +140,7 @@ class _ForwardsSelectPageState extends State<ForwardsSelectPage> {
                         borderRadius: BorderRadius.all(Radius.circular(14.0)),
                       ),
                       child: Image.asset(
-                        'images/players/${(allForwards[index].index < 9) ? (allForwards[index].index + 1).toString().padLeft(2, '0') : allForwards[index].index + 1}.png',
+                        'images/players/${(allForwards[index].index < 9) ? (allForwards[index].index + 1).toString().padLeft(2, '0') : allForwards[index].index + 1}.webp',
                         width: 20, // Adjust image size
                         height: 20,
                       ),
@@ -138,52 +158,49 @@ class _ForwardsSelectPageState extends State<ForwardsSelectPage> {
               // Back button to go back to the Money page
               BestElevenButton(
                 buttonText: 'BACK',
-                onPressed: () {
-                  Navigator.pop(context); // Go back to the previous page
-                },
+                onPressed:
+                    core.inReview
+                        ? null
+                        : () {
+                          Navigator.pop(
+                            context,
+                          ); // Go back to the previous page
+                        },
               ),
               // Next button to go to the next scoring category
               BestElevenButton(
                 buttonText: 'NEXT',
                 onPressed: () {
-                  for (var temp in selectedForwards) {
-                    Player player = allForwards[temp];
+                  for (var index in selectedForwards) {
+                    Player player = allForwards[index];
                     teams[core.currentPlayer].addPlayer(
                       player,
                       Position.forward,
                     );
                     core.selectedForwards.add(player);
                   }
+                  logger.d('selectedForwards.length: ${selectedForwards.length}');
+                  logger.d('number of midfielders: ${teams[core.currentPlayer].midfielders.length}');
+                  logger.d('number of defenders: ${teams[core.currentPlayer].defenders.length}');
 
-                  if (teams[core.currentPlayer].needPlayersInHand()) {
-                    Navigator.pushNamed(context, Routes.playersInHandPage).then(
-                      (_) {
-                        debugPrint('I\'ve been popped forwards page');
-                        reset();
-                      },
-                    );
-                  } else if (core.currentPlayer < (core.numPlayers - 1)) {
-                    // more players
-                    ++core.currentPlayer;
-                    Navigator.pushNamed(context, Routes.moneyEntryPage).then((
-                      _,
-                    ) {
-                      debugPrint('I\'ve been popped forwards page');
-                      reset();
-                    });
+                  if (core.inReview && !core.inManagerReset) {
+                    Navigator.pop(context);
                   } else {
-                    // last or only player
                     if (teams[core.currentPlayer].needPlayersInHand()) {
                       Navigator.pushNamed(
                         context,
-                        Routes.playersInHandPage,
+                        playersInHandPage,
                       ).then((_) {
-                        debugPrint('I\'ve been popped forwards page');
+                        debugPrint(
+                          "Returned from players in hand page, popping to root",
+                        );
                         reset();
                       });
                     } else {
-                      Navigator.pushNamed(context, Routes.scorePage).then((_) {
-                        debugPrint('I\'ve been popped forwards page');
+                      Navigator.pushNamed(context, reviewPage).then((_) {
+                        debugPrint(
+                          "Returned to forwards page from review page, popping to root",
+                        );
                         reset();
                       });
                     }

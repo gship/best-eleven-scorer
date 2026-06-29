@@ -1,11 +1,10 @@
-import 'package:best_xi_scorer/pages/manager_select_page.dart';
+import '../pages/manager_select_page.dart';
 import 'package:flutter/material.dart';
 import '../team.dart';
 import '../core.dart';
 import '../routes.dart';
 
 void main() async {
-
   // Initialize the database and insert users
   WidgetsFlutterBinding.ensureInitialized();
   initialize();
@@ -27,9 +26,9 @@ class MyApp extends StatelessWidget {
       //theme: ThemeData(fontFamily: 'Providence'),
       //theme: ThemeData(fontFamily: GoogleFonts.publicSans().fontFamily),
       //theme: ThemeData(fontFamily: GoogleFonts.fuzzyBubbles().fontFamily),
-      initialRoute: Routes.managerSelectPage,
+      initialRoute: managerSelectPage,
       routes: {
-        Routes.managerSelectPage: (context) => const ManagerSelectPage(),
+        managerSelectPage: (context) => const ManagerSelectPage(),
       },
     );
   }

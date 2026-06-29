@@ -2,21 +2,18 @@ import 'team.dart';
 import 'package:flutter/material.dart';
 import 'bonus_stipulation.dart';
 import 'player.dart';
-
-final setsOfColorsAcrossLines = SetsOfColorsAcrossLines();
+import 'color.dart';
 
 class SetsOfColorsAcrossLines implements BonusStipulation {
-  int bestSetCount = 0;
+  final Color color;
+
+  SetsOfColorsAcrossLines(this.color);
 
   @override
   int calculateBonus(Team team) {
-    debugPrint('entering calculateBonus for SetsOfColorsAcrossLines');
+    int bestSetCount = setsOfColor(team);
+
     // 5 FOR 1, 15 FOR 2
-
-    bestSetCount = 0;
-
-    bestSetCount = setsOfColor(team);
-
     int retValue = 0;
     if (bestSetCount >= 2) {
       retValue = 15;
@@ -34,17 +31,14 @@ class SetsOfColorsAcrossLines implements BonusStipulation {
 
     for (var playerD in team.defenders) {
       setFound = false;
-      if (!playersInSets.contains(playerD)) {
+      if (playerD.color == color && !playersInSets.contains(playerD)) {
         for (var playerM in team.midfielders) {
-          if (!playersInSets.contains(playerM) &&
-              playerM.color == playerD.color) {
+          if (!playersInSets.contains(playerM) && playerM.color == color) {
             for (var playerF in team.forwards) {
-              if (!playersInSets.contains(playerF) &&
-                  playerF.color == playerD.color) {
+              if (!playersInSets.contains(playerF) && playerF.color == color) {
                 playersInSets.add(playerD);
                 playersInSets.add(playerM);
                 playersInSets.add(playerF);
-                debugPrint('found set with $playerD & $playerM & $playerF');
                 sets++;
                 setFound = true;
                 break;

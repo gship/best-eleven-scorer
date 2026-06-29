@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../main_contain.dart';
+import '../background_container.dart';
 import '../save_game.dart';
 import '../saved_game.dart';
 import '../routes.dart';
@@ -22,8 +22,7 @@ class _SavedGamesPageState extends State<SavedGamesPage> {
     getSavedGames();
   }
 
-  getSavedGames() async {
-    debugPrint('getSavedGames()');
+  Future<void> getSavedGames() async {
     savedGames = await saveGame.getSavedGames();
     setState(() {});
     _savedGameId = 0;
@@ -35,12 +34,10 @@ class _SavedGamesPageState extends State<SavedGamesPage> {
 
   @override
   Widget build(BuildContext context) {
-    return mainContain(
+    return backgroundContainer(
       context,
-      AssetImage('images/background.png'),
+      AssetImage('images/background.webp'),
       content(context),
-      false,
-      true,
     );
   }
 
@@ -71,8 +68,6 @@ class _SavedGamesPageState extends State<SavedGamesPage> {
             child: ListView.builder(
               itemCount: savedGames.length,
               itemBuilder: (context, index) {
-                debugPrint('saved game id: ${savedGames[index].savedGameId}');
-                debugPrint('selected saved game id: $_savedGameId');
                 return Card(
                   shape:
                       (_savedGameId == 0 ||
@@ -92,11 +87,7 @@ class _SavedGamesPageState extends State<SavedGamesPage> {
                       overflow: TextOverflow.ellipsis,
                     ),
                     onTap: () {
-                      debugPrint(
-                        'I\'ve been tapped, saved game id: ${savedGames[index].savedGameId}',
-                      );
                       _savedGameId = savedGames[index].savedGameId;
-                      debugPrint('selected saved game id: $_savedGameId');
                       setState(() {});
                     },
                   ),
@@ -118,10 +109,8 @@ class _SavedGamesPageState extends State<SavedGamesPage> {
                 onPressed: () {
                   if (_savedGameId == 0) return;
                   savedGameId = _savedGameId;
-                  Navigator.pushNamed(context, Routes.savedGamePage).then((_) {
-                    debugPrint('I\'ve been popped saved games page');
+                  Navigator.pushNamed(context, savedGamePage).then((_) {
                     _savedGameId = savedGameId;
-                    debugPrint('set saved game id to $_savedGameId');
                   });
                 },
               ),

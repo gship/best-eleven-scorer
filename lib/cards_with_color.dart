@@ -1,4 +1,4 @@
-import 'package:best_xi_scorer/cards_of_color.dart';
+import 'cards_of_color.dart';
 
 import 'bonus_stipulation.dart';
 import 'color.dart';
@@ -12,13 +12,10 @@ class CardsWithColor implements BonusStipulation {
 
   @override
   int calculateBonus(Team team) {
-    debugPrint('entering calculateBonus for CardsWithColor for color = $color');
     int returnPoints = 0;
     int numberOfCards = CardsOfColor(color).cardsOfColor(team);
-    debugPrint('found $numberOfCards with color $color');
 
     // 4 IF 3-4CARDS, 7 IF 5+CARDS
-    // tacCards return per below
     if (numberOfCards >= 5) {
       returnPoints = 7;
     } else if (numberOfCards >= 3) {

@@ -1,1 +1,1 @@
-enum Position { keeper, defender, midfielder, forward, bench }
+enum Position { keeper, defender, midfielder, forward, player, bench }

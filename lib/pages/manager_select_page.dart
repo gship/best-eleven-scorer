@@ -1,7 +1,7 @@
-import 'package:best_xi_scorer/name_tag.dart';
+import '../name_tag.dart';
 import 'package:flutter/material.dart';
 import '../core.dart';
-import '../main_contain.dart';
+import '../background_container.dart';
 import '../team.dart';
 import '../best_eleven_button.dart';
 import '../routes.dart';
@@ -15,11 +15,23 @@ class ManagerSelectPage extends StatefulWidget {
 }
 
 class _ManagerSelectPageState extends State<ManagerSelectPage> {
-  int? selectedManager; // Holds the selected manager image
+  int? selectedManager; // Holds the selected manager index
+
+  @override
+  void initState() {
+    super.initState();
+    if (core.inReview) {
+      reset();
+    }
+    core.playingWithManagerTiles = false;
+  }
 
   bool isSelectable(int index) {
-    return ((selectedManager == null || selectedManager == index) &&
-        !core.selectedManagers.contains(allManagers[index]));
+    return ((selectedManager == null &&
+            !core.selectedManagers.contains(
+              allManagersWithFormations[index],
+            )) ||
+        selectedManager == index);
   }
 
   void reset() {
@@ -27,16 +39,15 @@ class _ManagerSelectPageState extends State<ManagerSelectPage> {
     selectedManager = teams[core.currentPlayer].manager?.index;
     core.selectedManagers.remove(teams[core.currentPlayer].manager);
     teams[core.currentPlayer].manager = null;
+    teams[core.currentPlayer].formation = null;
   }
 
   @override
   Widget build(BuildContext context) {
-    return mainContain(
+    return backgroundContainer(
       context,
-      AssetImage('images/background.png'),
+      AssetImage('images/background.webp'),
       content(context),
-      false,
-      true,
     );
   }
 
@@ -48,7 +59,7 @@ class _ManagerSelectPageState extends State<ManagerSelectPage> {
         children: [
           const SizedBox(height: 20),
           nameTag(teams[core.currentPlayer].gamePlayer),
-          Image(image: AssetImage('images/manager_icon.png'), width: 50),
+          Image(image: AssetImage('images/manager_icon.webp'), width: 50),
           const SizedBox(height: 20),
           const Text(
             'SELECT MANAGER',
@@ -62,17 +73,20 @@ class _ManagerSelectPageState extends State<ManagerSelectPage> {
           Expanded(
             child: GridView.count(
               childAspectRatio: 0.625,
-              crossAxisCount: 2,
+              crossAxisCount: 3,
               crossAxisSpacing: 10.0,
               mainAxisSpacing: 10.0,
-              children: List.generate(allManagers.length, (index) {
+              children: List.generate(allManagersWithFormations.length, (
+                index,
+              ) {
                 return GestureDetector(
                   onTap:
                       isSelectable(index)
                           ? () {
                             setState(() {
+                              // if already selected
                               if (selectedManager == index) {
-                                // Deselect if already selected
+                                // clear selected manager
                                 selectedManager = null;
                               } else {
                                 // Select as manager
@@ -89,7 +103,7 @@ class _ManagerSelectPageState extends State<ManagerSelectPage> {
                       decoration: BoxDecoration(
                         image: DecorationImage(
                           image: AssetImage(
-                            'images/managers/${allManagers[index].name.replaceAll(' ', '_')}.png',
+                            'images/managers/${allManagers[index].name.replaceAll(' ', '_')}.webp',
                           ),
                           fit: BoxFit.cover,
                         ),
@@ -113,33 +127,40 @@ class _ManagerSelectPageState extends State<ManagerSelectPage> {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              // Back button to go back to the Money page
+              // Back button to go back to the tac card page
               BestElevenButton(
                 buttonText: 'BACK',
                 onPressed:
-                    () =>
-                        Navigator.pop(context), // Go back to the previous page
+                    core.inReview
+                        ? null // in review don't go back
+                        : () {
+                          Navigator.popUntil(
+                            context,
+                            ModalRoute.withName(tacCardPage),
+                          );
+                        },
               ),
-              // Next button to go to the next scoring category
+              // Next button to go to the keeeper select page
               BestElevenButton(
                 buttonText: 'NEXT',
-                onPressed:
-                    selectedManager == null
-                        ? null // Disable button if no manager is selected
-                        : () {
-                          teams[core.currentPlayer].manager =
-                              allManagers[selectedManager!];
-                          core.selectedManagers.add(
-                            allManagers[selectedManager!],
-                          );
-                          Navigator.pushNamed(
-                            context,
-                            Routes.keeperSelectPage,
-                          ).then((_) {
-                            debugPrint('I\'ve been popped manager page');
-                            reset();
-                          });
-                        },
+                onPressed: () {
+                  if (selectedManager != null) {
+                    teams[core.currentPlayer].manager =
+                        allManagers[selectedManager!];
+                    teams[core.currentPlayer].formation =
+                        allFormations[selectedManager!];
+                    core.selectedManagers.add(allManagers[selectedManager!]);
+                    core.inReview = false;
+                    Navigator.pushNamed(context, keeperSelectPage).then((
+                      _,
+                    ) {
+                      debugPrint(
+                        "Returned from keeper select page, popping to root",
+                      );
+                      reset();
+                    });
+                  }
+                },
               ),
             ],
           ),

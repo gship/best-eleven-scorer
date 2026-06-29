@@ -1,6 +1,6 @@
-import 'package:best_xi_scorer/pages/saved_game_page.dart';
-import 'package:best_xi_scorer/save_game.dart';
-import 'package:best_xi_scorer/saved_games_db.dart';
+import '../pages/saved_game_page.dart';
+import '../save_game.dart';
+import '../saved_games_db.dart';
 import 'package:flutter/material.dart';
 import '../core.dart';
 import '../team.dart';

@@ -11,7 +11,7 @@ BestXiDatabase bestXiDatabase = BestXiDatabase();
 class BestXiDatabase {
   static Database? _database;
 
-  initialize() async {
+  Future<void> initialize() async {
     if (kIsWeb) {
       // Use web implementation on the web.
       databaseFactory = databaseFactoryFfiWeb;

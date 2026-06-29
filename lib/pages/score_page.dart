@@ -1,4 +1,4 @@
-import 'package:best_xi_scorer/best_eleven_button.dart';
+import '../best_eleven_button.dart';
 import 'package:flutter/material.dart';
 import '../team.dart';
 import '../scorer.dart';
@@ -8,6 +8,7 @@ import '../routes.dart';
 import '../save_game.dart';
 import '../score_pad.dart';
 import 'game_saved_confirmation_dialog.dart';
+import '../core.dart';
 
 class ScorePage extends StatefulWidget {
   const ScorePage({super.key});
@@ -19,6 +20,7 @@ class ScorePage extends StatefulWidget {
 class _ScorePageState extends State<ScorePage> {
   bool scoresCalculated = false;
   bool hasHighScore = false;
+  bool isSoloWin = false;
   bool gameSaved = false;
 
   @override
@@ -37,7 +39,7 @@ class _ScorePageState extends State<ScorePage> {
     retList.addAll([const SizedBox(height: 50)]);
 
     colList.addAll([
-      Image(image: AssetImage('images/best_xi_logo.png'), height: 80),
+      Image(image: AssetImage('images/best_xi_logo.webp'), height: 80),
       const SizedBox(height: 20),
       scorePad(teams, MainAxisAlignment.center),
       const SizedBox(height: 15),
@@ -48,7 +50,7 @@ class _ScorePageState extends State<ScorePage> {
         BestElevenButton(
           buttonText: 'View High Scores',
           onPressed: () {
-            Navigator.pushNamed(context, Routes.highScoresPage);
+            Navigator.pushNamed(context, highScoresPage);
           },
         ),
       );
@@ -57,33 +59,26 @@ class _ScorePageState extends State<ScorePage> {
     colList.add(const SizedBox(height: 15));
 
     // Buttons at the bottom
-    colList.add(
-      BestElevenButton(
-        buttonText: 'Save Game',
-        onPressed: () {
-          if (!gameSaved) {
-            gameSaved = true;
-            saveGame.saveGame();
-            showGameSavedConfirmationDialog(context);
-          }
-        },
-      ),
-    );
-    colList.add(const SizedBox(height: 15));
-    colList.add(
-      BestElevenButton(
-        buttonText: 'BACK',
-        onPressed: () {
-          Navigator.of(context).pop();
-        },
-      ),
-    );
-    colList.add(const SizedBox(height: 15));
-    // Home button
+    if (!core.playingSolo) {
+      colList.add(
+        BestElevenButton(
+          buttonText: 'Save Game',
+          onPressed: () {
+            if (!gameSaved) {
+              gameSaved = true;
+              saveGame.saveGame();
+              showGameSavedConfirmationDialog(context);
+            }
+          },
+        ),
+      );
+      colList.add(const SizedBox(height: 15));
+    }
     colList.add(
       BestElevenButton(
         buttonText: 'HOME',
         onPressed: () {
+          debugPrint("Home button pressed, popping to root");
           Navigator.of(context).popUntil((route) => route.isFirst);
         },
       ),
@@ -123,25 +118,25 @@ class _ScorePageState extends State<ScorePage> {
   void calculateScores() async {
     if (!scoresCalculated) {
       for (var team in teams) {
-        Scorer.score(team);
-        debugPrint('Score for ${team.gamePlayer}....');
-        debugPrint('-----------------------------------------');
-        debugPrint('TacCard score = ${team.score.tacCards}');
-        debugPrint('Money = ${team.score.money}');
-        debugPrint('Speed = ${team.score.speed}');
-        debugPrint('Savvy = ${team.score.savvy}');
-        debugPrint('Strength = ${team.score.strength}');
-        debugPrint('Skill = ${team.score.skill}');
-        debugPrint('Base = ${team.score.base}');
-        debugPrint('Total = ${team.score.total}');
-        debugPrint('-----------------------------------------');
-        team.score.isHighScore = await highScores.isHighScore(
-          team.gamePlayer,
-          team.score.total,
-        );
-        hasHighScore = hasHighScore || team.score.isHighScore;
-
-        debugPrint('isHighScore = $hasHighScore');
+        debugPrint("Calculating score for ${team.gamePlayer}");
+        if (team.isAutoma) {
+          debugPrint("Team is Automa, using Automa scoring");
+          Scorer.scoreAutoma(team);
+          // if solo player's score is higher than automa's score
+          if (teams[0].score.total > team.score.total) {
+            isSoloWin = true;
+            teams[0].score.isSoloWin = true;
+          }
+        } else {
+          Scorer.score(team);
+          if (!core.playingSolo) {
+            team.score.isHighScore = await highScores.isHighScore(
+              team.gamePlayer,
+              team.score.total,
+            );
+            hasHighScore = hasHighScore || team.score.isHighScore;
+          }
+        }
       }
 
       scoresCalculated = true;
@@ -158,28 +153,29 @@ class _ScorePageState extends State<ScorePage> {
     calculateScores();
 
     // check if any score is a high score
-    if (hasHighScore) {
-      debugPrint('trying to play confetti...');
+    if (hasHighScore || isSoloWin) {
       confettiController.play();
-      highScores.debugPrintHighScores();
     }
 
     return Scaffold(
+      backgroundColor: const Color(0xff39b54a),
+      resizeToAvoidBottomInset: false,
       body: Container(
         height: double.infinity,
         width: double.infinity,
         decoration: const BoxDecoration(
           // Image set to background of the body
           image: DecorationImage(
-            image: AssetImage('images/background.png'),
+            image: AssetImage('images/home.webp'),
             repeat: ImageRepeat.repeat,
           ),
         ),
         child: SingleChildScrollView(
-          child: Column(children: content(hasHighScore, confettiController)),
+          child: Column(
+            children: content(hasHighScore || isSoloWin, confettiController),
+          ),
         ),
       ),
-    ); //,
-    //);
+    );
   }
 }

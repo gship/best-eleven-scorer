@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:sqflite/sqflite.dart';
 import 'saved_game.dart';
 import 'best_xi_db.dart';
@@ -6,7 +5,7 @@ import 'best_xi_db.dart';
 SavedGamesDatabase savedGamesDatabase = SavedGamesDatabase();
 
 class SavedGamesDatabase {
-  saveGame(
+  Future<void> saveGame(
     int id,
     int numPlayers,
     String formattedDate,
@@ -26,49 +25,49 @@ class SavedGamesDatabase {
     );
   }
 
-  bulkInsertTeams(String valuesString) async {
+  Future<void> bulkInsertTeams(String valuesString) async {
     Database db = await bestXiDatabase.getDb();
     await db.rawInsert(
       'insert into saved_teams (savedGameId, playerNum, gamePlayer, manager, keeper, money, tacCards, scoreMoney, speed, savvy, strength, skill, base, total, isHighScore) values $valuesString',
     );
   }
 
-  bulkInsertTacCards(String valuesString) async {
+  Future<void> bulkInsertTacCards(String valuesString) async {
     Database db = await bestXiDatabase.getDb();
     await db.rawInsert(
       'insert into saved_tac_cards (savedGameId, playerNum, tacCard) values $valuesString',
     );
   }
 
-  bulkInsertDefenders(String valuesString) async {
+  Future<void> bulkInsertDefenders(String valuesString) async {
     Database db = await bestXiDatabase.getDb();
     await db.rawInsert(
       'insert into saved_defenders (savedGameId, playerNum, defender) values $valuesString',
     );
   }
 
-  bulkInsertMidfielders(String valuesString) async {
+  Future<void> bulkInsertMidfielders(String valuesString) async {
     Database db = await bestXiDatabase.getDb();
     await db.rawInsert(
       'insert into saved_midfielders (savedGameId, playerNum, midfielder) values $valuesString',
     );
   }
 
-  bulkInsertForwards(String valuesString) async {
+  Future<void> bulkInsertForwards(String valuesString) async {
     Database db = await bestXiDatabase.getDb();
     await db.rawInsert(
       'insert into saved_forwards (savedGameId, playerNum, forward) values $valuesString',
     );
   }
 
-  bulkInsertPlayersInHand(String valuesString) async {
+  Future<void> bulkInsertPlayersInHand(String valuesString) async {
     Database db = await bestXiDatabase.getDb();
     await db.rawInsert(
       'insert into players_in_hand (savedGameId, playerNum, player) values $valuesString',
     );
   }
 
-  deleteSavedGame(int savedGameId) async {
+  Future<void> deleteSavedGame(int savedGameId) async {
     Database db = await bestXiDatabase.getDb();
     await db.delete(
       'saved_games',
@@ -107,7 +106,7 @@ class SavedGamesDatabase {
     );
   }
 
-  deleteSavedGames() async {
+  Future<void> deleteSavedGames() async {
     Database db = await bestXiDatabase.getDb();
     await db.delete('last_saved_games_id');
     await db.delete('saved_games');
@@ -122,7 +121,6 @@ class SavedGamesDatabase {
   Future<List<SavedGame>> getSavedGames() async {
     Database db = await bestXiDatabase.getDb();
     final List<Map<String, Object?>> savedGames = await db.query('saved_games');
-    debugPrint('getSavedGames - got ${savedGames.length}');
     return [
       for (final {
             'savedGameId': savedGameId as int,
@@ -185,8 +183,6 @@ class SavedGamesDatabase {
       whereArgs: [savedGameId, playerNum],
     );
 
-    debugPrint('getSavedTeams - got ${savedTeams.length}');
-
     final savedTeam = SavedTeam(
       gamePlayer: savedTeams.first['gamePlayer'] as String,
       manager: savedTeams.first['manager'] as int,
@@ -217,7 +213,6 @@ class SavedGamesDatabase {
       where: 'savedGameId = ? and playerNum = ?',
       whereArgs: [savedGameId, playerNum],
     );
-    debugPrint('getSavedTacCards - got ${savedTacCards.length}');
     return [
       for (final {'tacCard': tacCard as int} in savedTacCards)
         SavedInteger(integer: tacCard),
@@ -235,7 +230,6 @@ class SavedGamesDatabase {
       where: 'savedGameId = ? and playerNum = ?',
       whereArgs: [savedGameId, playerNum],
     );
-    debugPrint('getSavedDefenders - got ${savedDefenders.length}');
     return [
       for (final {'defender': defender as int} in savedDefenders)
         SavedInteger(integer: defender),
@@ -253,7 +247,6 @@ class SavedGamesDatabase {
       where: 'savedGameId = ? and playerNum = ?',
       whereArgs: [savedGameId, playerNum],
     );
-    debugPrint('getSavedMidfielders - got ${savedMidfielders.length}');
     return [
       for (final {'midfielder': midfielder as int} in savedMidfielders)
         SavedInteger(integer: midfielder),
@@ -271,7 +264,6 @@ class SavedGamesDatabase {
       where: 'savedGameId = ? and playerNum = ?',
       whereArgs: [savedGameId, playerNum],
     );
-    debugPrint('getSavedForwards - got ${savedForwards.length}');
     return [
       for (final {'forward': forward as int} in savedForwards)
         SavedInteger(integer: forward),
@@ -289,7 +281,6 @@ class SavedGamesDatabase {
       where: 'savedGameId = ? and playerNum = ?',
       whereArgs: [savedGameId, playerNum],
     );
-    debugPrint('getPlayersInHand - got ${savedForwards.length}');
     return [
       for (final {'player': player as int} in savedForwards)
         SavedInteger(integer: player),

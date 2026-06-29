@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../team.dart';
+import 'team.dart';
 
 // need to position each component of score
 Positioned positionedFittedBox(
@@ -56,7 +56,9 @@ List<Widget> teamStack(List<Team> teams, int index) {
   double width = 65.3;
   double height = 44.75;
   Color backgroundColor =
-      teams[index].score.isHighScore ? Colors.yellow : Colors.white;
+      teams[index].score.isHighScore || teams[index].score.isSoloWin
+          ? Colors.yellow
+          : Colors.white;
 
   double vertical = 46.68;
 
@@ -166,7 +168,7 @@ Row scorePad(List<Team> teams, MainAxisAlignment mainAxisAlignment) {
           decoration: BoxDecoration(
             // Image set to background of the body
             image: DecorationImage(
-              image: AssetImage('images/score_pad.png'),
+              image: AssetImage('images/score_pad.webp'),
               fit: BoxFit.cover,
             ),
           ),

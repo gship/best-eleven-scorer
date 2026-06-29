@@ -12,6 +12,17 @@ class BestElevenButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double elevation = 27.0;
+    WidgetStateProperty<double>? elevationValue;
+    elevationValue =
+        WidgetStateProperty<double>.fromMap(<WidgetStatesConstraint, double>{
+          WidgetState.disabled: 27,
+          WidgetState.pressed: elevation + 6,
+          WidgetState.hovered: elevation + 2,
+          WidgetState.focused: elevation + 2,
+          WidgetState.any: elevation,
+        });
+
     return Padding(
       padding: const EdgeInsets.fromLTRB(0, 0, 10, 0),
       child: ElevatedButton(
@@ -24,10 +35,10 @@ class BestElevenButton extends StatelessWidget {
           backgroundColor: WidgetStateProperty.all(Colors.black),
           foregroundColor: WidgetStateProperty.all(Colors.white),
           overlayColor: WidgetStatePropertyAll<Color>(Colors.pink),
+          shadowColor: WidgetStateProperty.all(Colors.black),
+          elevation: elevationValue, // Set the initial elevation to 0
         ),
-
         onPressed: onPressed,
-
         child: Text(buttonText, style: TextStyle(fontSize: 25.0)),
       ),
     );

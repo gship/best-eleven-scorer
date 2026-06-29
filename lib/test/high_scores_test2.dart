@@ -1,10 +1,9 @@
-import 'package:best_xi_scorer/pages/high_scores_page.dart';
+import '../pages/high_scores_page.dart';
 import 'package:flutter/material.dart';
 import '../high_scores.dart';
 import '../core.dart';
 
 void main() async {
-
   // Initialize the database and insert users
   WidgetsFlutterBinding.ensureInitialized();
   initialize();
@@ -24,4 +23,3 @@ void main() async {
 
   runApp(HighScoresPage());
 }
-

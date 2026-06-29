@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:sqflite/sqflite.dart';
 import 'high_score.dart';
 import 'best_xi_db.dart';
@@ -14,7 +13,6 @@ class HighScoresDatabase {
   Future<List<HighScore>> getHighScores() async {
     Database db = await bestXiDatabase.getDb();
     final List<Map<String, Object?>> highScores = await db.query('high_scores');
-    debugPrint('getHighScores - got ${highScores.length}');
     return [
       for (final {
             'id': id as int,
@@ -47,7 +45,7 @@ class HighScoresDatabase {
     return await db.delete('high_scores');
   }
 
-  bulkInsert(String valuesString) async {
+  Future<void> bulkInsert(String valuesString) async {
     Database db = await bestXiDatabase.getDb();
     await db.rawInsert(
       'insert into high_scores (id, date, player, score) values $valuesString',

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../name_tag.dart';
 import '../core.dart';
-import '../main_contain.dart';
+import '../background_container.dart';
 import '../team.dart';
 import '../best_eleven_button.dart';
 import '../routes.dart';
@@ -23,15 +23,19 @@ class _DefendersSelectPageState extends State<DefendersSelectPage> {
   @override
   void initState() {
     super.initState();
+    if (core.inReview) {
+      reset();
+    }
   }
 
   void reset() {
     // Initialize the selected defender list from teams
     selectedDefenders.clear();
     for (var defender in teams[core.currentPlayer].defenders) {
+      // Add team defender to the selected defenders
       selectedDefenders.add(defender.defendersIndex);
       // Reset the playing position of the defender
-      defender.playingPosition = null;
+      allPlayerStats[defender.index].playingPosition = null;
       // Remove the selected defender from core
       core.selectedDefenders.remove(defender);
     }
@@ -39,30 +43,38 @@ class _DefendersSelectPageState extends State<DefendersSelectPage> {
     teams[core.currentPlayer].defenders.clear();
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return mainContain(
-      context,
-      AssetImage('images/background.png'),
-      content(context),
-      false,
-      true,
-    );
-  }
-
   bool isSelectable(int index) {
     Player player = allDefenders[index];
-    return (((selectedDefenders.length <
-                    teams[core.currentPlayer].manager!.numberOfDefenders &&
-                ((selectedDefenders.length +
-                        teams[core.currentPlayer].midfielders.length +
-                        teams[core.currentPlayer].forwards.length) <
-                    10)) ||
-            selectedDefenders.contains(index)) &&
-        !core.selectedDefenders.contains(player) &&
-        !core.selectedMidfielders.contains(player) &&
-        !core.selectedForwards.contains(player) &&
-        !core.playersInHand.contains(player));
+    // debugPrint('selectedDefenders.contains: ${selectedDefenders.contains(index)}');
+    logger.d('selectedDefenders.length: ${selectedDefenders.length}');
+    // debugPrint('formation numberOfDefenders: ${teams[core.currentPlayer].formation!.numberOfDefenders}');
+    logger.d('number of midfielders: ${teams[core.currentPlayer].midfielders.length}');
+    logger.d('number of forwards: ${teams[core.currentPlayer].forwards.length}');
+    // debugPrint('total selected players: ${selectedDefenders.length + teams[core.currentPlayer].midfielders.length + teams[core.currentPlayer].forwards.length}');
+    // debugPrint('playersInHand contains player: ${core.playersInHand.contains(player)}');
+    // debugPrint('selectedDefenders contains player: ${core.selectedDefenders.contains(player)}');
+    // debugPrint('selectedMidfielders contains player: ${core.selectedMidfielders.contains(player)}');
+    // debugPrint('selectedForwards contains player: ${core.selectedForwards.contains(player)}');
+    return (selectedDefenders.contains(index) ||
+        (selectedDefenders.length <
+                teams[core.currentPlayer].formation!.numberOfDefenders &&
+            (selectedDefenders.length +
+                    teams[core.currentPlayer].midfielders.length +
+                    teams[core.currentPlayer].forwards.length) <
+                10 &&
+            !core.selectedDefenders.contains(player) &&
+            !core.selectedMidfielders.contains(player) &&
+            !core.selectedForwards.contains(player) &&
+            !core.playersInHand.contains(player)));
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return backgroundContainer(
+      context,
+      AssetImage('images/background.webp'),
+      content(context),
+    );
   }
 
   Widget content(BuildContext context) {
@@ -73,7 +85,7 @@ class _DefendersSelectPageState extends State<DefendersSelectPage> {
         children: [
           const SizedBox(height: 20),
           nameTag(teams[core.currentPlayer].gamePlayer),
-          Image(image: AssetImage('images/defender_icon.png'), width: 50),
+          Image(image: AssetImage('images/defender_icon.webp'), width: 50),
           const SizedBox(height: 20),
           const Text(
             'SELECT DEFENDERS',
@@ -86,7 +98,7 @@ class _DefendersSelectPageState extends State<DefendersSelectPage> {
           ),
           Expanded(
             child: GridView.count(
-              crossAxisCount: 3,
+              crossAxisCount: 4,
               crossAxisSpacing: 10.0,
               mainAxisSpacing: 10.0,
               children: List.generate(allDefenders.length, (index) {
@@ -95,12 +107,13 @@ class _DefendersSelectPageState extends State<DefendersSelectPage> {
                       isSelectable(index)
                           ? () {
                             setState(() {
+                              // if already selected
                               if (selectedDefenders.contains(index)) {
-                                selectedDefenders.remove(
-                                  index,
-                                ); // deselect if already selected
+                                // remove defender
+                                selectedDefenders.remove(index);
                               } else {
-                                selectedDefenders.add(index); // select defender
+                                // add defender
+                                selectedDefenders.add(index);
                               }
                             });
                           }
@@ -117,7 +130,7 @@ class _DefendersSelectPageState extends State<DefendersSelectPage> {
                         borderRadius: BorderRadius.all(Radius.circular(14.0)),
                       ),
                       child: Image.asset(
-                        'images/players/${(allDefenders[index].index < 9) ? (allDefenders[index].index + 1).toString().padLeft(2, '0') : allDefenders[index].index + 1}.png',
+                        'images/players/${(allDefenders[index].index < 9) ? (allDefenders[index].index + 1).toString().padLeft(2, '0') : allDefenders[index].index + 1}.webp',
                       ),
                     ),
                   ),
@@ -133,29 +146,36 @@ class _DefendersSelectPageState extends State<DefendersSelectPage> {
               // Back button to go back to the Money page
               BestElevenButton(
                 buttonText: 'BACK',
-                onPressed: () {
-                  Navigator.pop(context); // Go back to the previous page
-                },
+                onPressed:
+                    core.inReview
+                        ? null
+                        : () {
+                          Navigator.pop(
+                            context,
+                          ); // Go back to the previous page
+                        },
               ),
               // Next button to go to the next scoring category
               BestElevenButton(
                 buttonText: 'NEXT',
                 onPressed: () {
-                  for (var temp in selectedDefenders) {
-                    Player player = allDefenders[temp];
-                    teams[core.currentPlayer].addPlayer(
-                      player,
-                      Position.defender,
-                    );
+                  for (var index in selectedDefenders) {
+                    Player player = allDefenders[index];
+                    teams[core.currentPlayer].addPlayer(player, Position.defender);
                     core.selectedDefenders.add(player);
                   }
-                  Navigator.pushNamed(
-                    context,
-                    Routes.midfieldersSelectPage,
-                  ).then((_) {
-                    debugPrint('I\'ve been popped defenders page');
-                    reset();
-                  });
+                  logger.d('selectedDefenders.length: ${selectedDefenders.length}');
+                  logger.d('number of midfielders: ${teams[core.currentPlayer].midfielders.length}');
+                  logger.d('number of forwards: ${teams[core.currentPlayer].forwards.length}');
+
+                  if (core.inReview && !core.inManagerReset) {
+                    Navigator.pop(context);
+                  } else {
+                    Navigator.pushNamed(context, midfieldersSelectPage).then((_) {
+                      debugPrint("Returned from midfielders select page, popping to root");
+                      reset();
+                    });
+                  }
                 },
               ),
             ],

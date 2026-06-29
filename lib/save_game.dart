@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:best_xi_scorer/player.dart';
-import 'package:best_xi_scorer/saved_games_db.dart';
+import 'player.dart';
+import 'saved_games_db.dart';
 import 'core.dart';
 import 'tac_card.dart';
 import 'team.dart';
@@ -13,7 +13,7 @@ SaveGame saveGame = SaveGame();
 class SaveGame {
   late int id;
 
-  initialize() async {
+  Future<void> initialize() async {
     savedGamesDatabase = SavedGamesDatabase();
     List<SavedGame> savedGames = await savedGamesDatabase.getSavedGames();
     List<int> savedGameIds = [];
@@ -24,10 +24,10 @@ class SaveGame {
     savedGameIds.sort();
 
     id = savedGameIds.isEmpty ? 1 : ++savedGameIds.last;
-    debugPrint('id = $id');
+    debugPrint('last saved game id = $id');
   }
 
-  saveGame() async {
+  Future<void> saveGame() async {
     id++;
     debugPrint('saveGame - id = $id, numPlayers = ${core.numPlayers}');
     DateTime now = DateTime.now();
@@ -116,11 +116,10 @@ class SaveGame {
       }
     }
 
-    debugPrint('teamsString = $teamsString');
     await savedGamesDatabase.bulkInsertTeams(teamsString);
   }
 
-  deleteSavedGame(int savedGameId) async {
+  Future<void> deleteSavedGame(int savedGameId) async {
     await savedGamesDatabase.deleteSavedGame(savedGameId);
     if (savedGameId == id) {
       initialize();
@@ -133,12 +132,8 @@ class SaveGame {
 
   Future<SavedGame> getSavedGame(int savedGameId) async {
     SavedGame savedGame = await savedGamesDatabase.getSavedGame(savedGameId);
-    debugPrint(
-      'xxxxx getSavedGame - savedGame.numPlayers = ${savedGame.numPlayers}',
-    );
 
     for (int i = 0; i < savedGame.numPlayers; ++i) {
-      debugPrint('getting team $i');
       SavedTeam savedTeam = await savedGamesDatabase.getSavedTeam(
         savedGameId,
         i,
@@ -169,14 +164,19 @@ class SaveGame {
         savedGameId,
         i,
       );
+      // defenders
       for (var defender in defenders) {
         team.defenders.add(allPlayers[defender.integer]);
       }
+
+      // midfielders
       List<SavedInteger> midfielders = await savedGamesDatabase
           .getSavedMidfielders(savedGameId, i);
       for (var midfielder in midfielders) {
         team.midfielders.add(allPlayers[midfielder.integer]);
       }
+
+      // forwards
       List<SavedInteger> forwards = await savedGamesDatabase.getSavedForwards(
         savedGameId,
         i,
@@ -184,6 +184,8 @@ class SaveGame {
       for (var forward in forwards) {
         team.forwards.add(allPlayers[forward.integer]);
       }
+
+      // players in hand
       List<SavedInteger> players = await savedGamesDatabase.getPlayersInHand(
         savedGameId,
         i,
@@ -193,7 +195,6 @@ class SaveGame {
       }
 
       savedTeams.add(team);
-      debugPrint('added team savedTeams.length = ${savedTeams.length}');
     }
 
     return savedGame;

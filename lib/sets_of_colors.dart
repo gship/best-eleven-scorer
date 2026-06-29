@@ -1,4 +1,4 @@
-import 'package:best_xi_scorer/team.dart';
+import 'team.dart';
 
 import 'bonus_stipulation.dart';
 import 'player.dart';
@@ -13,7 +13,6 @@ class SetsOfColors implements BonusStipulation {
   @override
   int calculateBonus(Team team) {
     int retVal = 0;
-    debugPrint('entering calculateBonus for SetsOfColors');
 
     bestSetCount = setsOfColor(team);
 
@@ -51,9 +50,6 @@ class SetsOfColors implements BonusStipulation {
                         playersInSets.add(playerO);
                         playersInSets.add(playerR);
                         playersInSets.add(playerP);
-                        debugPrint(
-                          'found set with $playerY & $playerT & $playerO & $playerR & $playerP',
-                        );
                         sets++;
                         setFound = true;
                         break;
