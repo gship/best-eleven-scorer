@@ -250,6 +250,7 @@ flutter:
     - images/players/98.webp
     - images/players/99.webp
     - images/ship_happens_games.png
+    - images/ship_happens_games_scaled.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images

@@ -45,6 +45,7 @@ class _BestElevenMatchPageState extends State<BestElevenMatchPage> {
   int moves = 0;
   final Map<int, BonusType> indexSelected = {};
   int score = 0;
+  bool processing = false;
 
   void firstSelection(int playerIndex, int boardIndex, int move) {
     if (!indexSelected.containsKey(playerIndex)) {
@@ -57,6 +58,7 @@ class _BestElevenMatchPageState extends State<BestElevenMatchPage> {
   }
   
   void secondSelection(int playerIndex, int boardIndex, int move) {
+    debugPrint('$selectedPlayerIndex - $selectedIndex, $playerIndex - $boardIndex');
     if (!indexSelected.containsKey(playerIndex)) {
       debugPrint('second selection, adding to indexSelected: $playerIndex, boardIndex: $boardIndex, move: $move at one');
       indexSelected[playerIndex] = (onBoardIndexOne: boardIndex, onBoardIndexTwo: -1, whenAddedOne: move, whenAddedTwo: -1, bonus: 200);
@@ -73,16 +75,16 @@ class _BestElevenMatchPageState extends State<BestElevenMatchPage> {
       indexSelected[playerIndex] = (onBoardIndexOne: indexSelected[playerIndex]!.onBoardIndexOne, onBoardIndexTwo: boardIndex, whenAddedOne: indexSelected[playerIndex]!.whenAddedOne, whenAddedTwo: move, bonus: 200);
     }
 
-    // if the other selected player is not player one
-    debugPrint('selectedPlayerIndex: $selectedPlayerIndex, selectedIndex: $selectedIndex');
+    // if the first selected player is not player one
+    debugPrint('selectedPlayerIndex: $selectedPlayerIndex, selectedIndex: $selectedIndex, move: $move');
     if (indexSelected[selectedPlayerIndex]!.onBoardIndexOne != selectedIndex) {
-      // halve the bonus of the other selected player
-      debugPrint('second selection, halving bonus for other selected player: $selectedPlayerIndex');
+      // first selected player is player two, halve the bonus of the first selected player
+      debugPrint('second selection, first selected is player two, halving bonus for first selected player: $selectedPlayerIndex');
       indexSelected[selectedPlayerIndex] = (onBoardIndexOne: indexSelected[selectedPlayerIndex]!.onBoardIndexOne, onBoardIndexTwo: indexSelected[selectedPlayerIndex]!.onBoardIndexTwo, whenAddedOne: indexSelected[selectedPlayerIndex]!.whenAddedOne, whenAddedTwo: indexSelected[selectedPlayerIndex]!.whenAddedTwo, bonus: indexSelected[selectedPlayerIndex]!.bonus ~/ 2);
-    } else {
-      // if the other selected player was added on another turn, halve the bonus of the other selected player
-      if (indexSelected[selectedPlayerIndex]!.whenAddedTwo != move) {
-        debugPrint('second selection, halving bonus for other selected player: $selectedPlayerIndex');
+    } else { // first selected player is player one
+      // if the first selected player was added on another turn, halve the bonus of the first selected player
+      if (indexSelected[selectedPlayerIndex]!.whenAddedOne != move) {
+        debugPrint('second selection, first selected is player one, but not added on current move, halving bonus for first selected player: $selectedPlayerIndex');
         indexSelected[selectedPlayerIndex] = (onBoardIndexOne: indexSelected[selectedPlayerIndex]!.onBoardIndexOne, onBoardIndexTwo: indexSelected[selectedPlayerIndex]!.onBoardIndexTwo, whenAddedOne: indexSelected[selectedPlayerIndex]!.whenAddedOne, whenAddedTwo: indexSelected[selectedPlayerIndex]!.whenAddedTwo, bonus: indexSelected[selectedPlayerIndex]!.bonus ~/ 2);
       }
     }
@@ -90,23 +92,9 @@ class _BestElevenMatchPageState extends State<BestElevenMatchPage> {
 
 
   void calculateCurrentScore(int playerIndex, int boardIndex, int move) {
-    debugPrint('calculating score for playerIndex: $playerIndex, boardIndex: $boardIndex, move: $move');
-    if (indexSelected[playerIndex]!.onBoardIndexTwo == -1) {
-      // onBoardIndexOne is therefore the first selection
-      // if the first selection was made on the same move as the second selection, then add half the bonus to the score
-      if (indexSelected[playerIndex]!.whenAddedOne == move) {
-        debugPrint('adding half bonus for playerIndex: $playerIndex, boardIndex: $boardIndex, move: $move, bonus: ${indexSelected[playerIndex]!.bonus}');
-        score += indexSelected[playerIndex]!.bonus ~/ 2;
-      } else {
-        // add the full bonus to the score
-        debugPrint('adding full bonus for playerIndex: $playerIndex, boardIndex: $boardIndex, move: $move, bonus: ${indexSelected[playerIndex]!.bonus}');
-        score += indexSelected[playerIndex]!.bonus;
-      }
-    } else {
-      debugPrint('adding bonus for playerIndex: $playerIndex, boardIndex: $boardIndex, move: $move, bonus: ${indexSelected[playerIndex]!.bonus}');
-      score += indexSelected[playerIndex]!.bonus;
-    }
-
+    debugPrint('$selectedPlayerIndex - $selectedIndex, $playerIndex - $boardIndex');
+    debugPrint('adding bonus: ${indexSelected[playerIndex]!.bonus}for playerIndex: $playerIndex');
+    score += indexSelected[playerIndex]!.bonus;
     debugPrint('currentscore $score');
   }
 
@@ -227,55 +215,58 @@ class _BestElevenMatchPageState extends State<BestElevenMatchPage> {
                 children: List.generate(playerPool.length, (index) {
                   return GestureDetector(
                     onTap: () {
-                      // if not already cleared from board
-                      if (matchedPlayers.contains(index)) {
-                        debugPrint('already matched');
-                      } else {
-                        debugPrint('not already matched');
-                        // if first of possible pair
-                        if (selectedIndex == -1) {
+                      if (!processing) {
+                        // if not already cleared from board
+                        if (matchedPlayers.contains(index)) {
+                          debugPrint('invalid index - shouldnt be able to select, already matched');
+                        } else {
+                          // if first of possible pair
+                          if (selectedIndex == -1) {
                             setState(() {
                               selectedIndex = index;
                               selectedPlayerIndex = playerPool[index].index;
                               // adjust indexSelected for first selection
                               firstSelection(selectedPlayerIndex, index, moves);
                             });
-                          Future.delayed(Duration(seconds: 1), () {
-                          });
-                          // if not the already selected card
-                        } else if (selectedIndex != index) {
-                          if (selectedPlayerIndex == playerPool[index].index) {
-                            debugPrint('match found');
-                            // remove the matched cards
-                            setState(() {
-                              otherIndex = index;
-                              Future.delayed(Duration(seconds: 1), () {
-                                setState(() {
-                                  calculateCurrentScore(selectedPlayerIndex, index, moves);
-                                  matchedPlayers.add(selectedIndex);
-                                  matchedPlayers.add(index);
-                                  matchCount++;
-                                  selectedIndex = -1;
-                                  otherIndex = -1;
-                                  selectedPlayerIndex = -1;
-                                  moves++;
+                            // else if selected card is not the same as the already selected card
+                          } else if (selectedIndex != index) {
+                            processing = true;
+                            // if the selected card is a match with the already selected card
+                            if (selectedPlayerIndex == playerPool[index].index) {
+                              debugPrint('match found');
+                              // remove the matched cards
+                              setState(() {
+                                otherIndex = index;
+                                Future.delayed(Duration(milliseconds: 500), () {
+                                  setState(() {
+                                    calculateCurrentScore(selectedPlayerIndex, index, moves);
+                                    matchedPlayers.add(selectedIndex);
+                                    matchedPlayers.add(index);
+                                    matchCount++;
+                                    selectedIndex = -1;
+                                    otherIndex = -1;
+                                    selectedPlayerIndex = -1;
+                                    moves++;
+                                    processing = false;
+                                  });
                                 });
                               });
-                            });
-                          } else {
-                            // not a match, reset indices
-                            setState(() {
-                              otherIndex = index;
-                              Future.delayed(Duration(seconds: 1), () {
-                                setState(() {
-                                  secondSelection(playerPool[index].index, index, moves);
-                                  otherIndex = -1;
-                                  selectedIndex = -1;
-                                  selectedPlayerIndex = -1;
-                                  moves++;
+                            } else {
+                              // not a match, reset indices
+                              setState(() {
+                                otherIndex = index;
+                                Future.delayed(Duration(milliseconds: 500), () {
+                                  setState(() {
+                                    secondSelection(playerPool[index].index, index, moves);
+                                    otherIndex = -1;
+                                    selectedIndex = -1;
+                                    selectedPlayerIndex = -1;
+                                    moves++;
+                                    processing = false;
+                                  });
                                 });
                               });
-                            });
+                            }
                           }
                         }
                       }
