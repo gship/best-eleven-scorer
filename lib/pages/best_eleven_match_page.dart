@@ -255,7 +255,7 @@ class _BestElevenMatchPageState extends State<BestElevenMatchPage> {
                               // not a match, reset indices
                               setState(() {
                                 otherIndex = index;
-                                Future.delayed(Duration(milliseconds: 500), () {
+                                Future.delayed(Duration(milliseconds: 750), () {
                                   setState(() {
                                     secondSelection(playerPool[index].index, index, moves);
                                     otherIndex = -1;

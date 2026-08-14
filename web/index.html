@@ -13,7 +13,7 @@
     the `--base-href` argument provided to `flutter build`.
   -->
   <base href="$FLUTTER_BASE_HREF">
-
+  <!-- <href="/best-eleven-scorer/"> -->
   <meta charset="UTF-8">
   <meta content="IE=Edge" http-equiv="X-UA-Compatible">
   <meta name="description" content="Best Eleven Scorer is an app to score the Best Eleven board game. For information about the game see https://www.shiphappensgames.com">
@@ -25,19 +25,12 @@
   <link rel="apple-touch-icon" href="icons/Icon-192.png">
 
   <!-- Favicon -->
-  <link rel="icon" type="image/webp" href="1024x1024.webp">
+  <link rel="icon" type="image/webp" href="images/1024x1024.webp">
 
   <title>Best Eleven Scorer</title>
   <link rel="manifest" href="manifest.json">
-  
-  
-  <!-- <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport">-->
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-
-  
-  
-  
-  
+    
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport">
   
   <style id="splash-screen-style">
     html {
@@ -96,6 +89,12 @@
       bottom: 0;
       right: 0;
     }
+
+    @media (prefers-color-scheme: dark) {
+      body {
+        background-color: #000000;
+          }
+    }
   </style>
   <script id="splash-screen-script">
     function removeSplashFromWeb() {
@@ -111,6 +110,14 @@
       <source srcset="splash/img/dark-1x.png 1x, splash/img/dark-2x.png 2x, splash/img/dark-3x.png 3x, splash/img/dark-4x.png 4x" media="(prefers-color-scheme: dark)">
       <img class="center" aria-hidden="true" src="splash/img/light-1x.png" alt="">
   </picture>
+  
+  
+  
+  
+  
+  
+  
+  
   
   
   
