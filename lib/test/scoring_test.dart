@@ -11,7 +11,7 @@ import '../score.dart';
 void main() async {
   // open file ./data/scoring_test_data.txt and read the lines into a list of strings
   var file = File(
-    'C:/Users/gship_000/StudioProjects/best_eleven_scorerorer/lib/test/data/scoring_test_data.txt',
+    'C:/Users/gship_000/StudioProjects/best_eleven_scorer/lib/test/data/scoring_test_data.txt',
   );
   try {
     var scoringTestData = await file.readAsString();

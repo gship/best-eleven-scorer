@@ -1,4 +1,4 @@
-import 'package:best_eleven_scorer/player.dart';
+import 'player.dart';
 
 import 'bonus_stipulation.dart';
 import 'position.dart';
@@ -17,7 +17,7 @@ class AllPositionSamePointValue implements BonusStipulation {
     bool allSamePointValue = true;
 
     for (var player in team.players) {
-      if (allPlayerStats[player.index].playingPosition == position) {
+      if (allPlayerStats[player.allPlayersIndex].playingPosition == position) {
         if (first) {
           points = player.points;
           first = false;

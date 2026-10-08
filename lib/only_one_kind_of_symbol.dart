@@ -58,13 +58,13 @@ class OnlyOneKindOfSymbol implements BonusStipulation {
 }
 
 Symbol getPlayerSymbol(Player player) {
-  if (allPlayerStats[player.index].numberOfSkills > 0) {
+  if (allPlayerStats[player.allPlayersIndex].numberOfSkills > 0) {
     return Symbol.skill;
-  } else if (allPlayerStats[player.index].numberOfSavvies > 0) {
+  } else if (allPlayerStats[player.allPlayersIndex].numberOfSavvies > 0) {
     return Symbol.savvy;
-  } else if (allPlayerStats[player.index].numberOfSpeeds > 0) {
+  } else if (allPlayerStats[player.allPlayersIndex].numberOfSpeeds > 0) {
     return Symbol.speed;
-  } else if (allPlayerStats[player.index].numberOfStrengths > 0) {
+  } else if (allPlayerStats[player.allPlayersIndex].numberOfStrengths > 0) {
     return Symbol.strength;
   } else {
     throw Exception('Player ${player.name} has no symbols');

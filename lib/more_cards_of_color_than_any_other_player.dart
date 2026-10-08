@@ -1,4 +1,4 @@
-import 'package:best_eleven_scorer/core.dart';
+import 'core.dart';
 
 import 'cards_of_color.dart';
 

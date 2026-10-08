@@ -29,7 +29,7 @@ class MultiSymbolHelper {
         multiSymbolsPlayerCount++;
         playersAvailable.add(player);
       } else if (player.numberOfSymbols == 1) {
-        allPlayerStats[player.index].trySymbol =
+        allPlayerStats[player.allPlayersIndex].trySymbol =
             player.symbols[0]; // set try symbol to player's only symbol
         playersWithSingleSymbol.add(player);
         playersAvailable.add(player);

@@ -1,4 +1,4 @@
-import 'package:best_eleven_scorer/player.dart';
+import 'player.dart';
 
 import 'bonus_stipulation.dart';
 import 'symbol.dart';
@@ -17,28 +17,28 @@ class ForEachSymbol implements BonusStipulation {
     switch (symbol) {
       case Symbol.skill:
         for (var player in team.players) {
-          numberOfSymbol += allPlayerStats[player.index].numberOfSkills;
+          numberOfSymbol += allPlayerStats[player.allPlayersIndex].numberOfSkills;
         }
 
         break;
 
       case Symbol.savvy:
         for (var player in team.players) {
-          numberOfSymbol += allPlayerStats[player.index].numberOfSavvies;
+          numberOfSymbol += allPlayerStats[player.allPlayersIndex].numberOfSavvies;
         }
 
         break;
 
       case Symbol.speed:
         for (var player in team.players) {
-          numberOfSymbol += allPlayerStats[player.index].numberOfSpeeds;
+          numberOfSymbol += allPlayerStats[player.allPlayersIndex].numberOfSpeeds;
         }
 
         break;
 
       case Symbol.strength:
         for (var player in team.players) {
-          numberOfSymbol += allPlayerStats[player.index].numberOfStrengths;
+          numberOfSymbol += allPlayerStats[player.allPlayersIndex].numberOfStrengths;
         }
 
         break;

@@ -1,4 +1,4 @@
-import 'package:best_eleven_scorer/player.dart';
+import 'player.dart';
 
 import 'bonus_stipulation.dart';
 import 'symbol.dart';
@@ -19,7 +19,7 @@ class NoCardsWithSymbol implements BonusStipulation {
     switch (symbol) {
       case Symbol.skill:
         for (var player in team.players) {
-          if (allPlayerStats[player.index].numberOfSkills > 0) {
+          if (allPlayerStats[player.allPlayersIndex].numberOfSkills > 0) {
             symbolFound = true;
             break;
           }
@@ -29,7 +29,7 @@ class NoCardsWithSymbol implements BonusStipulation {
 
       case Symbol.savvy:
         for (var player in team.players) {
-          if (allPlayerStats[player.index].numberOfSavvies > 0) {
+          if (allPlayerStats[player.allPlayersIndex].numberOfSavvies > 0) {
             symbolFound = true;
             break;
           }
@@ -39,7 +39,7 @@ class NoCardsWithSymbol implements BonusStipulation {
 
       case Symbol.speed:
         for (var player in team.players) {
-          if (allPlayerStats[player.index].numberOfSpeeds > 0) {
+          if (allPlayerStats[player.allPlayersIndex].numberOfSpeeds > 0) {
             symbolFound = true;
             break;
           }
@@ -49,7 +49,7 @@ class NoCardsWithSymbol implements BonusStipulation {
 
       case Symbol.strength:
         for (var player in team.players) {
-          if (allPlayerStats[player.index].numberOfStrengths > 0) {
+          if (allPlayerStats[player.allPlayersIndex].numberOfStrengths > 0) {
             symbolFound = true;
             break;
           }

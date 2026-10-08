@@ -1,24 +1,10 @@
-import 'base_points_equal_one.dart';
-import 'cards_in_hand.dart';
-import 'color_of_keeper.dart';
-import 'multiple_positions.dart';
 import 'for_each_symbol.dart';
-import 'no_symbols.dart';
 import 'player_base_points.dart';
-import 'high_low_base_points.dart';
-import 'sets_of_colors_across_lines.dart';
-import 'sets_of_symbols_across_lines.dart';
-import 'the_in_the_name.dart';
 import 'symbol.dart';
-import 'with_signing_bonus.dart';
 import 'team.dart';
 import 'package:flutter/material.dart';
-import 'no_cards_with_symbol.dart';
-import 'cards_with_color.dart';
-import 'sets_of_symbols.dart';
-import 'sets_of_colors.dart';
-import 'money.dart';
 import 'player.dart';
+import 'tac_card.dart';
 
 final int maxStats = 4;
 int bestSymbolPoints = 0;
@@ -47,7 +33,7 @@ class Scorer {
           team.players[i].numberOfSpeeds;
       allPlayerStats[team.players[i].allPlayersIndex].numberOfStrengths =
           team.players[i].numberOfStrengths;
-      debugPrint('Player ${team.players[i].name}');
+      debugPrint('Player ${team.players[i].name}, allPlayersIndex: ${team.players[i].allPlayersIndex}, sk = ${team.players[i].numberOfSkills}, sv = ${team.players[i].numberOfSavvies}, sp = ${team.players[i].numberOfSpeeds}, st = ${team.players[i].numberOfStrengths}');
       if (team.players[i].hasWildStat) {
         debugPrint(
           'has wild stat----------------------------------------------',
@@ -171,15 +157,6 @@ class Scorer {
       statLevel,
     );
 
-    // loop through bestStatLevel and print out the best stat for each player with wild stat
-    for (int i = 0; i < indexWithWildStat.length; i++) {
-      debugPrint(
-        '-------------------- best stat level ------------------------------------------------------------------------------',
-      );
-      debugPrint(
-        '${getStatText(bestStatLevel[i])} for player ${team.players[indexWithWildStat[i]].name}',
-      );
-    }
     // assign the best stat values to the team
     team.score.tacCardSymbolPoints = bestTacCardSymbolPoints;
     team.score.speed = bestSpeed;
@@ -207,6 +184,11 @@ class Scorer {
         statLevel,
       );
     } else {
+      for (int i = 0; i < indexWithWildStat.length; i++) {
+        debugPrint(
+          'Trying ${getStatText(statLevel[i])} for player ${team.players[indexWithWildStat[i]].name}',
+        );
+      }
       calculateSymbolScore(team);
       int symbolPoints =
           team.score.tacCardSymbolPoints +
@@ -219,8 +201,14 @@ class Scorer {
         isNewBest = true;
         // save this as the best assignment of wild stat values
         debugPrint(
-          'new best symbol points = $symbolPoints ------------------------------------',
+          'new best symbol points = $symbolPoints ------------------------------------------------',
         );
+        for (int i = 0; i < indexWithWildStat.length; i++) {
+          debugPrint(
+            'With ${getStatText(statLevel[i])} for player ${team.players[indexWithWildStat[i]].name}',
+          );
+        }
+        debugPrint('-----------------------------------------------------------------',);
         bestSymbolPoints = symbolPoints;
         bestTacCardSymbolPoints = team.score.tacCardSymbolPoints;
         bestSpeed = team.score.speed;
@@ -229,9 +217,6 @@ class Scorer {
         bestSkill = team.score.skill;
         for (int i = 0; i < indexWithWildStat.length; i++) {
           bestStatLevel[i] = statLevel[i];
-          debugPrint(
-            '${getStatText(bestStatLevel[i])} for player ${team.players[indexWithWildStat[i]].name}',
-          );
         }
       }
     }
@@ -293,7 +278,7 @@ class Scorer {
       case 1:
         return 'Skill';
       case 2:
-        return 'Intelligence';
+        return 'Savvy';
       case 3:
         return 'Speed';
       case 4:
@@ -306,16 +291,13 @@ class Scorer {
   static void calculateColorScore(Team team) {
     int tacCardColorPoints = 0;
 
-    debugPrint('TAC CARD COLOR BONUS STIPULATION');
+    debugPrint('Calculating tac card color score...');
     for (var tacCard in team.tacCards) {
-      if (tacCard.bonusStipulation.runtimeType == SetsOfColorsAcrossLines ||
-          tacCard.bonusStipulation.runtimeType == SetsOfColors ||
-          tacCard.bonusStipulation.runtimeType == CardsWithColor ||
-          tacCard.bonusStipulation.runtimeType == ColorOfKeeper) {
+      if (tacCard.dependency == TacCardDependency.color) {
         tacCardColorPoints += tacCard.bonusStipulation.calculateBonus(team);
       }
     }
-    debugPrint('TAC CARD COLOR BONUS STIPULATION POINTS = $tacCardColorPoints');
+    debugPrint('TAC CARD COLOR SCORE = $tacCardColorPoints');
 
     team.score.tacCardColorPoints = tacCardColorPoints;
   }
@@ -323,21 +305,14 @@ class Scorer {
   static void calculateSymbolScore(Team team) {
     int tacCardSymbolPoints = 0;
 
-    debugPrint('TAC CARD SYMBOL BONUS STIPULATION');
+    debugPrint('Calculating tac card symbol score...');
     for (var tacCard in team.tacCards) {
-      if (tacCard.bonusStipulation.runtimeType == NoSymbols) {
-        tacCardSymbolPoints += tacCard.bonusStipulation.calculateBonus(team);
-      } else if (tacCard.bonusStipulation.runtimeType ==
-          SetsOfSymbolsAcrossLines) {
-        tacCardSymbolPoints += tacCard.bonusStipulation.calculateBonus(team);
-      } else if (tacCard.bonusStipulation.runtimeType == SetsOfSymbols) {
-        tacCardSymbolPoints += tacCard.bonusStipulation.calculateBonus(team);
-      } else if (tacCard.bonusStipulation.runtimeType == NoCardsWithSymbol) {
+      if (tacCard.dependency == TacCardDependency.symbol) {
         tacCardSymbolPoints += tacCard.bonusStipulation.calculateBonus(team);
       }
     }
     debugPrint(
-      'TAC CARD SYMBOL BONUS STIPULATION POINTS = $tacCardSymbolPoints',
+      'TAC CARD SYMBOL SYMBOL SCORE = $tacCardSymbolPoints',
     );
     team.score.tacCardSymbolPoints = tacCardSymbolPoints;
 
@@ -356,19 +331,7 @@ class Scorer {
 
     debugPrint('TAC CARD OTHER BONUS STIPULATION');
     for (var tacCard in team.tacCards) {
-      if (tacCard.bonusStipulation.runtimeType == Money) {
-        points += tacCard.bonusStipulation.calculateBonus(team);
-      } else if (tacCard.bonusStipulation.runtimeType == TheInTheName) {
-        points += tacCard.bonusStipulation.calculateBonus(team);
-      } else if (tacCard.bonusStipulation.runtimeType == CardsInHand) {
-        points += tacCard.bonusStipulation.calculateBonus(team);
-      } else if (tacCard.bonusStipulation.runtimeType == BasePointsEqualOne) {
-        points += tacCard.bonusStipulation.calculateBonus(team);
-      } else if (tacCard.bonusStipulation.runtimeType == WithSigningBonus) {
-        points += tacCard.bonusStipulation.calculateBonus(team);
-      } else if (tacCard.bonusStipulation.runtimeType == MultiplePositions) {
-        points += tacCard.bonusStipulation.calculateBonus(team);
-      } else if (tacCard.bonusStipulation.runtimeType == HighLowBasePoints) {
+      if (tacCard.dependency == TacCardDependency.none) {
         points += tacCard.bonusStipulation.calculateBonus(team);
       }
     }

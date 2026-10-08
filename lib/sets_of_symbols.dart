@@ -41,16 +41,16 @@ class SetsOfSymbols implements BonusStipulation {
     for (var playerSk in playersWithSingleSymbol) {
       setFound = false;
       if (playersAvailable.contains(playerSk) &&
-          allPlayerStats[playerSk.index].trySymbol == Symbol.skill) {
+          allPlayerStats[playerSk.allPlayersIndex].trySymbol == Symbol.skill) {
         for (var playerSa in playersWithSingleSymbol) {
           if (playersAvailable.contains(playerSa) &&
-              allPlayerStats[playerSa.index].trySymbol == Symbol.savvy) {
+              allPlayerStats[playerSa.allPlayersIndex].trySymbol == Symbol.savvy) {
             for (var playerSp in playersWithSingleSymbol) {
               if (playersAvailable.contains(playerSp) &&
-                  allPlayerStats[playerSp.index].trySymbol == Symbol.speed) {
+                  allPlayerStats[playerSp.allPlayersIndex].trySymbol == Symbol.speed) {
                 for (var playerSt in playersAvailable) {
                   if (playersAvailable.contains(playerSt) &&
-                      allPlayerStats[playerSt.index].trySymbol ==
+                      allPlayerStats[playerSt.allPlayersIndex].trySymbol ==
                           Symbol.strength) {
                     // found a set; remove players from available list
                     playersAvailable.remove(playerSk);
@@ -115,7 +115,7 @@ class SetsOfSymbols implements BonusStipulation {
       '$fn multiple symbols player index = $i, symbol index = ${playerMultipleSymbolsIndex[i]}, ${playersWithMultipleSymbols[i]} trySymbol = ${playerMultipleSymbols[i][playerMultipleSymbolsIndex[i]]}',
     );
     // for this player with multiple symbols, set try symbol to the symbol at the current index
-    allPlayerStats[playersWithMultipleSymbols[i].index].trySymbol =
+    allPlayerStats[playersWithMultipleSymbols[i].allPlayersIndex].trySymbol =
         playerMultipleSymbols[i][playerMultipleSymbolsIndex[i]];
 
     // if more players with multiple symbols
@@ -169,19 +169,19 @@ class SetsOfSymbols implements BonusStipulation {
       setFound = false;
       if (playersAvailable.contains(playerSk) &&
           !playersInSets.contains(playerSk) &&
-          allPlayerStats[playerSk.index].trySymbol == Symbol.skill) {
+          allPlayerStats[playerSk.allPlayersIndex].trySymbol == Symbol.skill) {
         for (var playerSa in playersAvailable) {
           if (playersAvailable.contains(playerSa) &&
               !playersInSets.contains(playerSa) &&
-              allPlayerStats[playerSa.index].trySymbol == Symbol.savvy) {
+              allPlayerStats[playerSa.allPlayersIndex].trySymbol == Symbol.savvy) {
             for (var playerSp in playersAvailable) {
               if (playersAvailable.contains(playerSp) &&
                   !playersInSets.contains(playerSp) &&
-                  allPlayerStats[playerSp.index].trySymbol == Symbol.speed) {
+                  allPlayerStats[playerSp.allPlayersIndex].trySymbol == Symbol.speed) {
                 for (var playerSt in playersAvailable) {
                   if (playersAvailable.contains(playerSt) &&
                       !playersInSets.contains(playerSt) &&
-                      allPlayerStats[playerSt.index].trySymbol ==
+                      allPlayerStats[playerSt.allPlayersIndex].trySymbol ==
                           Symbol.strength) {
                     playersInSets.add(playerSk);
                     playersInSets.add(playerSa);

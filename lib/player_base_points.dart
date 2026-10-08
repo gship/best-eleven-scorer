@@ -35,8 +35,8 @@ class PlayerBasePoints implements BonusStipulation {
   int formMatch(Team team, Player player) {
     int highPoints = 0;
     for (var mate in team.players) {
-      if (allPlayerStats[mate.index].playingPosition ==
-          allPlayerStats[player.index].playingPosition) {
+      if (allPlayerStats[mate.allPlayersIndex].playingPosition ==
+          allPlayerStats[player.allPlayersIndex].playingPosition) {
         if (mate.points > highPoints) {
           highPoints = mate.points;
         }

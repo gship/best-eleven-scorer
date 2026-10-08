@@ -45,13 +45,13 @@ class SetsOfSymbolsAcrossLines implements BonusStipulation {
         for (var playerM in team.midfielders) {
           if (playersWithSingleSymbol.contains(playerM) &&
               playersAvailable.contains(playerM) &&
-              allPlayerStats[playerM.index].trySymbol ==
-                  allPlayerStats[playerD.index].trySymbol) {
+              allPlayerStats[playerM.allPlayersIndex].trySymbol ==
+                  allPlayerStats[playerD.allPlayersIndex].trySymbol) {
             for (var playerF in team.forwards) {
               if (playersWithSingleSymbol.contains(playerF) &&
                   playersAvailable.contains(playerF) &&
-                  allPlayerStats[playerF.index].trySymbol ==
-                      allPlayerStats[playerD.index].trySymbol) {
+                  allPlayerStats[playerF.allPlayersIndex].trySymbol ==
+                      allPlayerStats[playerD.allPlayersIndex].trySymbol) {
                 // found set; remove players from available list
                 playersAvailable.remove(playerD);
                 playersAvailable.remove(playerM);
@@ -103,7 +103,7 @@ class SetsOfSymbolsAcrossLines implements BonusStipulation {
     debugPrint(
       'recurseFindSets - i = $i, index = ${playerSelectIndexes[i]}, ${playersMultipleSymbols[i]} trySymbol = ${playerTrySymbols[i][playerSelectIndexes[i]]}',
     );
-    allPlayerStats[playersMultipleSymbols[i].index].trySymbol =
+    allPlayerStats[playersMultipleSymbols[i].allPlayersIndex].trySymbol =
         playerTrySymbols[i][playerSelectIndexes[i]];
 
     // if more players with multiple symbols
@@ -156,13 +156,13 @@ class SetsOfSymbolsAcrossLines implements BonusStipulation {
         for (var playerM in team.midfielders) {
           if (playersAvailable.contains(playerM) &&
               !playersInSets.contains(playerM) &&
-              allPlayerStats[playerM.index].trySymbol ==
-                  allPlayerStats[playerD.index].trySymbol) {
+              allPlayerStats[playerM.allPlayersIndex].trySymbol ==
+                  allPlayerStats[playerD.allPlayersIndex].trySymbol) {
             for (var playerF in team.forwards) {
               if (playersAvailable.contains(playerF) &&
                   !playersInSets.contains(playerF) &&
-                  allPlayerStats[playerF.index].trySymbol ==
-                      allPlayerStats[playerD.index].trySymbol) {
+                  allPlayerStats[playerF.allPlayersIndex].trySymbol ==
+                      allPlayerStats[playerD.allPlayersIndex].trySymbol) {
                 playersInSets.add(playerD);
                 playersInSets.add(playerM);
                 playersInSets.add(playerF);

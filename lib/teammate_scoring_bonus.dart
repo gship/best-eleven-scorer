@@ -1,4 +1,4 @@
-import 'package:best_eleven_scorer/player.dart';
+import 'player.dart';
 
 import 'team.dart';
 import 'package:flutter/material.dart';

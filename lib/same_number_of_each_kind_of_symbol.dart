@@ -1,5 +1,4 @@
-import 'package:best_eleven_scorer/player.dart';
-
+import 'player.dart';
 import 'bonus_stipulation.dart';
 import 'team.dart';
 import 'package:flutter/material.dart';
@@ -15,10 +14,10 @@ class SameNumberOfEachKindOfSymbol implements BonusStipulation {
     int totalStrengths = 0;
 
     for (var p in team.players) {
-      totalSkills += allPlayerStats[p.index].numberOfSkills;
-      totalSavvies += allPlayerStats[p.index].numberOfSavvies;
-      totalSpeeds += allPlayerStats[p.index].numberOfSpeeds;
-      totalStrengths += allPlayerStats[p.index].numberOfStrengths;
+      totalSkills += allPlayerStats[p.allPlayersIndex].numberOfSkills;
+      totalSavvies += allPlayerStats[p.allPlayersIndex].numberOfSavvies;
+      totalSpeeds += allPlayerStats[p.allPlayersIndex].numberOfSpeeds;
+      totalStrengths += allPlayerStats[p.allPlayersIndex].numberOfStrengths;
     }
 
     debugPrint(

@@ -1,5 +1,5 @@
-import 'package:best_eleven_scorer/bonus_stipulation.dart';
-import 'package:best_eleven_scorer/teammate_scoring_bonus.dart';
+import 'bonus_stipulation.dart';
+import 'teammate_scoring_bonus.dart';
 
 import 'color.dart';
 import 'symbol.dart';
@@ -2555,7 +2555,7 @@ const List<Player> allPlayers = <Player>[
     106,
     "Detective",
     Color.teal,
-    true,
+    false,
     1,
     false,
     true,
@@ -3004,7 +3004,7 @@ const List<Player> allPlayers = <Player>[
     -1,
     -1,
     51,
-    null,
+    TeammateScoringBonus(Color.yellow, Position.midfielder),
   ),
   Player(
     125,
