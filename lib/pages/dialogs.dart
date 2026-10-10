@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-Future<bool> showYesNoDialog(BuildContext context, String header, String query) async {
+Future<bool> showYesNoDialog(BuildContext context, String header, String query, [String yes = 'Yes', String no = 'No']) async {
   bool retVal = false;
   await showDialog(
     context: context,
@@ -29,8 +29,8 @@ Future<bool> showYesNoDialog(BuildContext context, String header, String query) 
               retVal = true;
               Navigator.of(context).pop();
             },
-            child: const Text(
-              'Yes',
+            child: Text(
+              yes,
               style: TextStyle(
                 fontSize: 18.0, // <-- Adjust content size here
               ),
@@ -41,8 +41,8 @@ Future<bool> showYesNoDialog(BuildContext context, String header, String query) 
               debugPrint('$query The answer is no ...');
               Navigator.of(context).pop();
             },
-            child: const Text(
-              'No',
+            child: Text(
+              no,
               style: TextStyle(
                 fontSize: 18.0, // <-- Adjust content size here
               ),

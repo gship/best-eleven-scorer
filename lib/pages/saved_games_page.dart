@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'dialogs.dart';
 import '../background_container.dart';
 import '../save_game.dart';
 import '../saved_game.dart';
@@ -117,12 +118,16 @@ class _SavedGamesPageState extends State<SavedGamesPage> {
               const SizedBox(height: 20),
               BestElevenButton(
                 buttonText: 'Delete Saved Game',
-                onPressed: () {
+                onPressed: () async {
                   if (_savedGameId == 0) return;
-                  saveGame.deleteSavedGame(_savedGameId);
-                  _savedGameId = 0;
-                  getSavedGames();
-                  setState(() {});
+                  final bool proceed =
+                      await showYesNoDialog(context, 'Delete Saved Game?', 'Are you sure you want to delete this saved game?', 'Continue', 'Cancel');
+                  if (proceed) {
+                    await saveGame.deleteSavedGame(_savedGameId);
+                    _savedGameId = 0;
+                    getSavedGames();
+                    setState(() {});
+                  }
                 },
               ),
               const SizedBox(height: 20),

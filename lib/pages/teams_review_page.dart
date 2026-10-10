@@ -67,10 +67,12 @@ class _TeamsReviewPageState extends State<TeamsReviewPage> {
               onTap: () async {
                 if (needToResetTeam) {
                   // have to rewind to reset team
-                  await showOkDialog(context, 'Changing Manager/Formation Changes Formation', 'Changing manager/formation changes formation. You will need to re-enter your team.');
-                  core.inManagerReset = true;
-                  if (context.mounted) {
-                    Navigator.popUntil(context, ModalRoute.withName(route));
+                  final bool proceed =await showYesNoDialog(context, 'Changing Manager/Formation Changes Formation', 'Changing manager/formation changes formation. You will need to re-enter your team.', 'Continue', 'Cancel ');
+                  if (proceed) {
+                    core.inManagerReset = true;
+                    if (context.mounted) {
+                      Navigator.popUntil(context, ModalRoute.withName(route));
+                    }
                   }
                 } else {
                   // just need to update selected
