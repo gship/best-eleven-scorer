@@ -123,7 +123,6 @@ class _TeamsReviewPageState extends State<TeamsReviewPage> {
     List<Expanded> iconChildList,
     List<Player> players,
   ) {
-    if (players.isEmpty) return SizedBox(height: 0);
     return Column(
       children: [
         const SizedBox(height: 15),
@@ -149,6 +148,7 @@ class _TeamsReviewPageState extends State<TeamsReviewPage> {
               ),
             ),
             const SizedBox(width: 10),
+            if (players.isNotEmpty)
             Expanded(
               child: Wrap(
                 spacing: 8.0,
@@ -387,14 +387,16 @@ class _TeamsReviewPageState extends State<TeamsReviewPage> {
           teams[core.currentPlayer].forwards,
         ),
       );
-      _children.add(
-        players(
-          context,
-          playersInHandPage,
-          iconChildList(['images/blank_position_icon.webp']),
-          teams[core.currentPlayer].hand,
-        ),
+      if (teams[core.currentPlayer].needPlayersInHand()) {
+        _children.add(
+          players(
+            context,
+            playersInHandPage,
+            iconChildList(['images/blank_position_icon.webp']),
+            teams[core.currentPlayer].hand,
+          ),
       );
+      }
     }
   }
 
