@@ -1,7 +1,7 @@
-import '../pages/high_scores_page.dart';
+import '../lib/pages/high_scores_page.dart';
 import 'package:flutter/material.dart';
-import '../high_scores.dart';
-import '../core.dart';
+import '../lib/high_scores.dart';
+import '../lib/core.dart';
 
 void main() async {
   // Initialize the database and insert users

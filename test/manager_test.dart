@@ -1,8 +1,8 @@
-import '../pages/manager_select_page.dart';
+import '../lib/pages/manager_select_page.dart';
 import 'package:flutter/material.dart';
-import '../team.dart';
-import '../core.dart';
-import '../routes.dart';
+import '../lib/team.dart';
+import '../lib/core.dart';
+import '../lib/routes.dart';
 
 void main() async {
   // Initialize the database and insert users

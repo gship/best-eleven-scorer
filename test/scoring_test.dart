@@ -1,25 +1,33 @@
+import 'package:flutter_test/flutter_test.dart';
+
 import 'dart:io';
 import 'package:flutter/material.dart';
-import '../team.dart';
-import '../player.dart';
-import '../tac_card.dart';
-import '../manager.dart';
-import '../scorer.dart';
-import '../position.dart';
-import '../score.dart';
+import '../lib/color.dart';
+import '../lib/core.dart';
+import '../lib/manager.dart';
+import '../lib/player.dart';
+import '../lib/position.dart';
+import '../lib/score.dart';
+import '../lib/scorer.dart';
+import '../lib/tac_card.dart';
+import '../lib/team.dart';
 
-void main() async {
+void main() {
+  test('scoring test', () async {
   // open file ./data/scoring_test_data.txt and read the lines into a list of strings
   var file = File(
-    'C:/Users/gship_000/StudioProjects/best_eleven_scorer/lib/test/data/scoring_test_data.txt',
+    'C:/Users/gship_000/StudioProjects/best_eleven_scorer/test/data/scoring_test_data.txt',
   );
   try {
-    var scoringTestData = await file.readAsString();
+    String scoringTestData = await file.readAsString();
     List<String> lines = scoringTestData.split('\n');
     // iterate over lines two at a time
     for (int i = 0; i < lines.length; i += 2) {
       String teamData = lines[i];
       String expectedScoreData = lines[i + 1];
+
+      // reset the core state before each test
+      core.reset();
 
       // create a new team and parse the team data into the team
       Team team = Team('Test Player');
@@ -37,15 +45,13 @@ void main() async {
       // compare the team's score to the expected scores and print the results
       debugPrint('Comparing scores');
       bool scoresMatch = compareScores(team, expectedScore);
-      if (!scoresMatch) {
-        debugPrint('Test failed for team data: $teamData');
-        // abort the test run if any test fails
-        return;
-      }
+      await Future.delayed(const Duration(seconds: 3));
+      expect(scoresMatch, true);
     }
   } catch (e) {
     debugPrint('error: $e');
   }
+  });
 }
 
 void parseTeamData(Team team, String teamData) {
@@ -112,7 +118,33 @@ void parseTeamData(Team team, String teamData) {
       case 'mny':
         team.money = int.parse(value);
         break;
+      case 'moreColor':
+        List<String> colorList = value.split(',').map((s) => s.trim()).toList();
+        for (String color in colorList) {
+          var (valid, colorValue) = colorFromString(color);
+          if (valid) {
+            team.moreColor[colorValue] = true;
+          }
+        }
+        break;
     }
+  }
+}
+
+(bool, Color) colorFromString(String colorString) {
+  switch (colorString.toLowerCase()) {
+    case 'yellow':
+      return (true, Color.yellow);
+    case 'teal':
+      return (true, Color.teal);
+    case 'orange':
+      return (true, Color.orange);
+    case 'red':
+      return (true, Color.red);
+    case 'purple':
+      return (true, Color.purple);
+    default:
+      return (false, Color.yellow); // default to yellow if not found
   }
 }
 

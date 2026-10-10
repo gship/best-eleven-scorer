@@ -7,8 +7,7 @@ import '../player.dart';
 import '../name_tag.dart';
 import '../routes.dart';
 import '../core.dart';
-import 'teams_review_dialog.dart';
-import 'manager_reset_dialog.dart';
+import 'dialogs.dart';
 
 class TeamsReviewPage extends StatefulWidget {
   const TeamsReviewPage({super.key});
@@ -25,7 +24,7 @@ class _TeamsReviewPageState extends State<TeamsReviewPage> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      showTeamsReviewDialog(context);
+      showOkDialog(context, 'Review Your Team', 'To change any row click on the icon to the left of the row, otherwise click NEXT');
     });
     addChildren();
   }
@@ -68,7 +67,7 @@ class _TeamsReviewPageState extends State<TeamsReviewPage> {
               onTap: () async {
                 if (needToResetTeam) {
                   // have to rewind to reset team
-                  await showManagerResetDialog(context);
+                  await showOkDialog(context, 'Changing Manager/Formation Changes Formation', 'Changing manager/formation changes formation. You will need to re-enter your team.');
                   core.inManagerReset = true;
                   if (context.mounted) {
                     Navigator.popUntil(context, ModalRoute.withName(route));

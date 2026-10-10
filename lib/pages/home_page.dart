@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'dialogs.dart';
 import '../background_container.dart';
 import '../routes.dart';
 import '../core.dart';
@@ -26,48 +27,17 @@ class _HomePageState extends State<HomePage> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     bool seen = (prefs.getBool('seen_home_dialog') ?? false);
 
+    // If not seen, show the dialog
     if (!seen) {
-      // If not seen, show the dialog
-      _showMyDialog();
-      // Set the flag in shared preferences so it doesn't show next time
-      await prefs.setBool('seen_home_dialog', true);
+      BuildContext context = this.context;
+      debugPrint('Want to show home dialog because it has not been seen yet.');
+      if (context.mounted) {
+        debugPrint('Showing home dialog.');
+        showOkDialog(context, 'Bonus Games and More!', "Click on the three dots in the very top right for bonus games.\nScroll down on any page to see all buttons.");
+        // Set the flag in shared preferences so it doesn't show next time
+        await prefs.setBool('seen_home_dialog', true);
+      }
     }
-  }
-
-  void _showMyDialog() {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: const Text(
-            "Welcome!",
-            style: TextStyle(
-              fontSize: 24.0, // <-- Adjust title size here
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          content: const Text(
-            "Click on the three dots in the very top right for bonus games.\nScroll down on any page to see all buttons.",
-            style: TextStyle(
-              fontSize: 18.0, // <-- Adjust content size here
-            ),
-          ),
-          actions: <Widget>[
-            TextButton(
-              child: const Text(
-                "OK",
-                style: TextStyle(
-                  fontSize: 18.0, // <-- Adjust content size here
-                ),
-              ),
-              onPressed: () {
-                Navigator.of(context).pop(); // Dismiss the dialog
-              },
-            ),
-          ],
-        );
-      },
-    );
   }
 
   @override
@@ -101,33 +71,10 @@ class _HomePageState extends State<HomePage> {
                 menuChildren: <Widget>[
                   MenuItemButton(
                     onPressed:
-                        () => showDialog<void>(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return AlertDialog(
-                              content: const Text(
-                                'App development: Glen Shipley\n'
-                                'Artwork: Cumanche, Dan Evans, David Flores, Alexandra Francis, Conner Gillette, Victor Bizar Gomez, Chester Holme, Dan Leydon, and Matthew Shipley\n',
-                                style: TextStyle(
-                                  fontSize: 18.0, // <-- Adjust content size here
-                                ),
-                              ),
-                              actions: <Widget>[
-                                TextButton(
-                                  style: TextButton.styleFrom(textStyle: Theme.of(context).textTheme.labelLarge),
-                                  child: const Text(
-                                    'OK',
-                                    style: TextStyle(
-                                      fontSize: 18.0, // <-- Adjust content size here
-                                    ),
-                                  ),
-                                  onPressed: () {
-                                    Navigator.of(context).pop();
-                                  },
-                                ),
-                              ],
-                            );
-                          },
+                        () => showOkDialog(
+                          context,
+                          'Best Eleven Scorer App Team',
+                          'App development: Glen Shipley\nArtwork: Cumanche, Dan Evans, David Flores, Alexandra Francis, Conner Gillette, Victor Bizar Gomez, Chester Holme, Dan Leydon, and Matthew Shipley',
                         ),
                     child: Text('About'),
                   ),

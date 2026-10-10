@@ -70,6 +70,8 @@ class _MoneyEntryPageState extends State<MoneyEntryPage> {
               color: Colors.white,
             ),
             decoration: InputDecoration(
+              hintText: 'How much money?',
+              hintStyle: TextStyle(color: Colors.grey[300]!.withValues(alpha: 0.5)),
               labelStyle: TextStyle(color: Colors.white),
               labelText: "How much money?",
               fillColor: Colors.black.withValues(alpha: 0.5),
@@ -97,7 +99,6 @@ class _MoneyEntryPageState extends State<MoneyEntryPage> {
             inputFormatters: <TextInputFormatter>[
               FilteringTextInputFormatter.digitsOnly,
             ],
-
             // Only numbers can be entered
             controller: moneyEntryController,
           ),

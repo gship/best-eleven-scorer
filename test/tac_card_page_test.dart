@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import '../pages/tac_card_page.dart';
-import '../core.dart';
-import '../team.dart';
+import '../lib/pages/tac_card_page.dart';
+import '../lib/core.dart';
+import '../lib/team.dart';
 
 void main() {
   core.currentPlayer = 0;

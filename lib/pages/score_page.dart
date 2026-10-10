@@ -7,7 +7,7 @@ import '../high_scores.dart';
 import '../routes.dart';
 import '../save_game.dart';
 import '../score_pad.dart';
-import 'game_saved_confirmation_dialog.dart';
+import 'dialogs.dart';
 import '../core.dart';
 
 class ScorePage extends StatefulWidget {
@@ -67,7 +67,7 @@ class _ScorePageState extends State<ScorePage> {
             if (!gameSaved) {
               gameSaved = true;
               saveGame.saveGame();
-              showGameSavedConfirmationDialog(context);
+              showOkDialog(context, 'Game Saved', 'Game has been successfully saved.');
             }
           },
         ),

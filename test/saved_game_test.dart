@@ -1,12 +1,12 @@
-import '../pages/saved_game_page.dart';
-import '../save_game.dart';
-import '../saved_games_db.dart';
+import '../lib/pages/saved_game_page.dart';
+import '../lib/save_game.dart';
+import '../lib/saved_games_db.dart';
 import 'package:flutter/material.dart';
-import '../core.dart';
-import '../team.dart';
-import '../manager.dart';
-import '../player.dart';
-import '../tac_card.dart';
+import '../lib/core.dart';
+import '../lib/team.dart';
+import '../lib/manager.dart';
+import '../lib/player.dart';
+import '../lib/tac_card.dart';
 
 void main() async {
   // Initialize the database and insert users

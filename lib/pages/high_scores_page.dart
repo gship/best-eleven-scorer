@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import '../high_scores.dart';
 import '../best_eleven_button.dart';
 import '../background_container.dart';
-import 'clear_high_scores_confirmation_dialog.dart';
+import 'dialogs.dart';
 
 class HighScoresPage extends StatefulWidget {
   const HighScoresPage({super.key});
@@ -74,8 +74,8 @@ class _HighScoresPageState extends State<HighScoresPage> {
               BestElevenButton(
                 buttonText: 'Reset High Scores',
                 onPressed: () async {
-                  bool? clearHighScores =
-                      await showClearHighScoresConfirmationDialog(context);
+                  final bool clearHighScores =
+                      await showYesNoDialog(context, 'Reset High Scores?', 'Are you sure you want to reset all high scores?');
                   if (clearHighScores) {
                     await highScores.deleteHighScores();
                   }

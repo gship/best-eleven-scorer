@@ -1,17 +1,17 @@
-import '../pages/score_page.dart';
-import '../player.dart';
-import '../tac_card.dart';
+import '../lib/pages/score_page.dart';
+import '../lib/player.dart';
+import '../lib/tac_card.dart';
 import 'package:flutter/material.dart';
 //import 'package:google_fonts/google_fonts.dart';
-import '../core.dart';
-import '../team.dart';
-import '../manager.dart';
-import '../position.dart';
+import '../lib/core.dart';
+import '../lib/team.dart';
+import '../lib/manager.dart';
+import '../lib/position.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 import 'package:sqflite_common_ffi_web/sqflite_ffi_web.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
-import '../best_xi_db.dart';
-import '../high_scores_db.dart';
+import '../lib/best_xi_db.dart';
+import '../lib/high_scores_db.dart';
 
 Team team = Team('Brigham');
 List<String> names = ['Matt', 'Elise', 'Grandmaster Funk', 'Olivia'];

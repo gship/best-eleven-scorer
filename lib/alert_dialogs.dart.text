@@ -1,0 +1,273 @@
+import 'package:flutter/material.dart';
+
+void main() => runApp(const MyApp());
+
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        primaryColor: AppColors.primary,
+        colorScheme: ColorScheme.fromSeed(seedColor: AppColors.primary),
+      ),
+      home: const AlertDialogExample(),
+    );
+  }
+}
+
+class AlertDialogExample extends StatefulWidget {
+  const AlertDialogExample({super.key});
+
+  @override
+  State<AlertDialogExample> createState() => _AlertDialogExampleState();
+}
+
+class _AlertDialogExampleState extends State<AlertDialogExample> {
+  String result = '';
+  final TextEditingController _textController = TextEditingController();
+
+  void _showBasicAlert(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Bilgilendirme'),
+          content: const Text('Bu basit bir AlertDialog örneğidir.'),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(),
+              child: const Text('TAMAM'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void _showConfirmDialog(BuildContext context) async {
+    final confirmed = await showDialog<bool>(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Row(
+            children: [
+              Icon(Icons.warning, color: AppColors.warning),
+              SizedBox(width: 10),
+              Text('Onay Gerekli'),
+            ],
+          ),
+          content: const Text('Bu öğeyi silmek istediğinizden emin misiniz?'),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(false),
+              child: const Text('İPTAL'),
+            ),
+            ElevatedButton(
+              onPressed: () => Navigator.of(context).pop(true),
+              style: ElevatedButton.styleFrom(backgroundColor: AppColors.error),
+              child: const Text('SİL', style: TextStyle(color: Colors.white)),
+            ),
+          ],
+        );
+      },
+    );
+    
+    setState(() {
+      result = confirmed == true ? 'Silme onaylandı!' : 'Silme iptal edildi';
+    });
+  }
+
+  void _showInputDialog(BuildContext context) async {
+    _textController.clear();
+    final input = await showDialog<String>(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('İsim Girin'),
+          content: TextField(
+            controller: _textController,
+            decoration: const InputDecoration(
+              hintText: 'Total Players',
+              border: OutlineInputBorder(),
+            ),
+            autofocus: true,
+            keyboardType: TextInputType.number,
+            inputFormatters: <TextInputFormatter>[
+              FilteringTextInputFormatter.digitsOnly,
+            ],
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(),
+              child: const Text('İPTAL'),
+            ),
+            ElevatedButton(
+              onPressed: () => Navigator.of(context).pop(_textController.text),
+              style: ElevatedButton.styleFrom(backgroundColor: AppColors.primary),
+              child: const Text('KAYDET', style: TextStyle(color: Colors.white)),
+            ),
+          ],
+        );
+      },
+    );
+    
+    if (input != null && input.isNotEmpty) {
+      setState(() {
+        result = 'Girilen isim: $input';
+      });
+    }
+  }
+
+  Future<bool>  showYesNoDialog(BuildContext context, String header, String query) async{
+  bool retVal = false;
+    await showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+          title: Container(
+            padding: const EdgeInsets.all(16),
+            decoration: BoxDecoration(
+              color: AppColors.success,
+              borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
+            ),
+            child: Row(
+              children: [
+                Icon(Icons.check_circle, color: Colors.white, size: 30),
+                SizedBox(width: 10),
+                Text(header, style: TextStyle(color: Colors.white)),
+              ],
+            ),
+          ),
+          titlePadding: EdgeInsets.zero,
+          content: Text(query),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                debugPrint('$query The answer is yes ...');
+                retVal = true;
+                Navigator.of(context).pop();
+              },
+              child: const Text(
+                'Yes',
+                style: TextStyle(
+                  fontSize: 18.0, // <-- Adjust content size here
+                ),
+              ),
+            ),
+            TextButton(
+              onPressed: () {
+                debugPrint('$query The answer is no ...');
+                Navigator.of(context).pop();
+              },
+              child: const Text(
+                'No',
+                style: TextStyle(
+                  fontSize: 18.0, // <-- Adjust content size here
+                ),
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  return retVal;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('AlertDialog Örneği'),
+        backgroundColor: AppColors.primary,
+        foregroundColor: Colors.white,
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(20),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            if (result.isNotEmpty)
+              Container(
+                padding: const EdgeInsets.all(12),
+                margin: const EdgeInsets.only(bottom: 20),
+                decoration: BoxDecoration(
+                  color: AppColors.info.withOpacity(0.1),
+                  borderRadius: BorderRadius.circular(8),
+                  border: Border.all(color: AppColors.info),
+                ),
+                child: Text(result, textAlign: TextAlign.center),
+              ),
+            
+            ElevatedButton.icon(
+              onPressed: () => _showBasicAlert(context),
+              icon: const Icon(Icons.info),
+              label: const Text('Basit Alert'),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: AppColors.info,
+                foregroundColor: Colors.white,
+                padding: const EdgeInsets.all(16),
+              ),
+            ),
+            const SizedBox(height: 12),
+            
+            ElevatedButton.icon(
+              onPressed: () => _showConfirmDialog(context),
+              icon: const Icon(Icons.help),
+              label: const Text('Onay Dialog'),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: AppColors.warning,
+                foregroundColor: Colors.white,
+                padding: const EdgeInsets.all(16),
+              ),
+            ),
+            const SizedBox(height: 12),
+            
+            ElevatedButton.icon(
+              onPressed: () => _showInputDialog(context),
+              icon: const Icon(Icons.edit),
+              label: const Text('Girdi Dialog'),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: AppColors.primary,
+                foregroundColor: Colors.white,
+                padding: const EdgeInsets.all(16),
+              ),
+            ),
+            const SizedBox(height: 12),
+            
+            ElevatedButton.icon(
+              onPressed: () => _showCustomDialog(context),
+              icon: const Icon(Icons.style),
+              label: const Text('Özel Tasarım Dialog'),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: AppColors.success,
+                foregroundColor: Colors.white,
+                padding: const EdgeInsets.all(16),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+  
+  @override
+  void dispose() {
+    _textController.dispose();
+    super.dispose();
+  }
+}
+
+
+class AppColors {
+  static const primary = Color(0xFFF26C0D);
+  static const textDark = Color(0xFF181411);
+  static const textLight = Color(0xFF8A7260);
+  static const success = Color(0xFF4CAF50);
+  static const error = Color(0xFFFF0000);
+  static const info = Color(0xFF2196F3);
+  static const warning = Color(0xFFFFC107);
+}

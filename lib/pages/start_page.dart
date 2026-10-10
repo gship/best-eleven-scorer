@@ -19,6 +19,7 @@ class StartPage extends StatelessWidget {
   Widget content(BuildContext context) {
     void processPressed(int numPlayers) {
       core.numPlayers = numPlayers;
+      core.totalPlayers = numPlayers;
 
       Navigator.pushNamed(context, nameEntryPage).then((_) {
         debugPrint("Returned from name entry page, popping to root");

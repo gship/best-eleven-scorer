@@ -42,7 +42,8 @@ class Core {
   late List<Player> playersInHand = [];
   late List<String> gamePlayers = [];
   late int currentPlayer = 0;
-  late int numPlayers = 0;
+  late int numPlayers = 0; // this is the number of players app is scoring
+  late int totalPlayers = 0; // this is the number of players in the game; used when scoring one for bonus calculations
   late bool inReview = false;
   late bool inManagerReset = false;
   late bool playingWithManagerTiles = false;
@@ -61,6 +62,7 @@ class Core {
     gamePlayers.clear();
     currentPlayer = 0;
     numPlayers = 0;
+    totalPlayers = 0;
     resetAllPlayerStats();
     newTeams();
   }

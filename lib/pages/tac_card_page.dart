@@ -5,7 +5,7 @@ import '../tac_card.dart';
 import '../core.dart';
 import '../team.dart';
 import '../best_eleven_button.dart';
-import 'manager_playing_with_tiles_dialog.dart';
+import 'dialogs.dart';
 import '../routes.dart';
 import '../more_cards_of_color_than_any_other_player.dart';
 
@@ -119,48 +119,14 @@ class _TacCardPageState extends State<TacCardPage> {
                   for (var card in selectedCards) {
                     if (core.numPlayers == 1 && !core.playingSolo && card.bonusStipulation is MoreCardsOfColorThanAnyOtherPlayerColor) {
                       final String bonusColor = '${(card.bonusStipulation as MoreCardsOfColorThanAnyOtherPlayerColor).color}'.replaceAll("Color.", '');
-                      final bool? hasMore = await showDialog(
-                        barrierDismissible: false,
-                        context: context,
-                        builder:
-                            (BuildContext context) => AlertDialog(
-                              actionsAlignment: MainAxisAlignment.center,
-                              content: Text(
-                                'Do you have more $bonusColor cards than any other player? If you do, click YES, otherwise click NO',
-                                style: TextStyle(
-                                  fontSize: 18.0, // <-- Adjust content size here
-                                ),
-                              ),
-                              actions: <Widget>[
-                                TextButton(
-                                  onPressed: () {
-                                    Navigator.pop(context, true);
-                                  },
-                                  child: const Text(
-                                    'YES',
-                                    style: TextStyle(
-                                      fontSize: 18.0, // <-- Adjust content size here
-                                    ),
-                                  ),
-                                ),
-                                TextButton(
-                                  onPressed: () {
-                                    Navigator.pop(context, false);
-                                  },
-                                  child: const Text(
-                                    'NO',
-                                    style: TextStyle(
-                                      fontSize: 18.0, // <-- Adjust content size here
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                      );
+                      final bool hasMore = await showYesNoDialog(context, 'More ${bonusColor.toUpperCase()} Cards?', 'Do you have more $bonusColor cards than any other player?');
+                      debugPrint('User answered $hasMore to the question about having more $bonusColor cards than any other player.');
                       if (hasMore == true) {
                         teams[core.currentPlayer].moreColor[(card.bonusStipulation as MoreCardsOfColorThanAnyOtherPlayerColor).color] = true;
-                        // teams[core.currentPlayer].tacCards.add(card);
-                        // core.selectedTacCards.add(card);
+                        if (context.mounted) {
+                          final int totalPlayers = await showNumberEntryDialog(context, 'Total Playing Best Eleven?', 'How many players are playing Best Eleven?', 1, 4);
+                          core.totalPlayers = totalPlayers;
+                        }
                       }
                     }
                     teams[core.currentPlayer].tacCards.add(card);
@@ -172,13 +138,25 @@ class _TacCardPageState extends State<TacCardPage> {
                   } else {
                     if (core.currentPlayer == 0) {
                       if (context.mounted) {
-                        final String? result = await showPlayingWithManagerTilesDialog(context);
-                        if (result != null) {
-                          if (context.mounted) {
-                            Navigator.pushNamed(context, result).then((_) {
-                              debugPrint("Returned from $result page, popping to root");
+                        final bool playingWithManagerTiles = await showYesNoDialog(context, 'Playing with Manager Tiles?', 'Are you playing with manager tiles?');
+                        if (context.mounted) {
+                          if (playingWithManagerTiles) {
+                            Navigator.pushNamed(context, managerTileSelectPage).then((_) {
+                              debugPrint("Returned from managerTileSelectPage page, popping to root");
                               reset();
                             });
+                          } else {
+                            if (core.playingSolo) {
+                              Navigator.pushNamed(context, managerSoloSelectPage).then((_) {
+                                debugPrint("Returned from managerSoloSelectPage page, popping to root");
+                                reset();
+                              });
+                            } else {
+                              Navigator.pushNamed(context, managerSelectPage).then((_) {
+                                debugPrint("Returned from managerSelectPage page, popping to root");
+                                reset();
+                              })  ;
+                            }
                           }
                         }
                       }

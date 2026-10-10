@@ -18,6 +18,9 @@ class MoreCardsOfColorThanAnyOtherPlayerColor implements BonusStipulation {
     int numberOfCards = CardsOfColor(color).cardsOfColor(team);
     bool hasMoreOfColor = true;
 
+    debugPrint('Calculating bonus for MoreCardsOfColorThanAnyOtherPlayerColor for color $color');
+    debugPrint('core.numPlayers = ${core.numPlayers}, core.totalPlayers = ${core.totalPlayers}, team.moreColor[$color] = ${team.moreColor[color]}');
+
     if (core.numPlayers == 1 && !core.playingSolo) {
       if (team.moreColor[color] == true) {
         hasMoreOfColor = true;
@@ -35,11 +38,11 @@ class MoreCardsOfColorThanAnyOtherPlayerColor implements BonusStipulation {
 
     // 6 IF TWO PLAYERS, 9 IF THREE PLAYERS, 12 IF FOUR PLAYERS
     if (hasMoreOfColor) {
-      if (teams.length == 2) {
+      if (core.totalPlayers == 2) {
         returnPoints = 6;
-      } else if (teams.length == 3) {
+      } else if (core.totalPlayers == 3) {
         returnPoints = 9;
-      } else if (teams.length == 4) {
+      } else if (core.totalPlayers == 4) {
         returnPoints = 12;
       }
     }

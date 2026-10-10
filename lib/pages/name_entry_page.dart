@@ -55,7 +55,7 @@ class _NameEntryPageState extends State<NameEntryPage> {
   }
 
   // Function to check if all player names are entered
-  bool arePlayerNamesEntered() {
+  bool areAllPlayerNamesEntered() {
     for (var controller in playerNameControllers) {
       if (controller.text.isEmpty) {
         return false;
@@ -134,6 +134,8 @@ class _NameEntryPageState extends State<NameEntryPage> {
                     onSubmitted: (String str) {},
                     controller: playerNameControllers[index],
                     decoration: InputDecoration(
+                      hintText: 'Player ${index + 1} Name',
+                      hintStyle: TextStyle(color: Colors.grey[300]!.withValues(alpha: 0.7)),
                       alignLabelWithHint: true,
                       labelStyle: TextStyle(color: Colors.white),
                       labelText: 'Player ${index + 1} Name',
@@ -179,7 +181,7 @@ class _NameEntryPageState extends State<NameEntryPage> {
             BestElevenButton(
               buttonText: 'NEXT',
               onPressed: () {
-                if (arePlayerNamesEntered()) {
+                if (areAllPlayerNamesEntered()) {
                   savePlayerNames();
                   core.inReview = false;
 
