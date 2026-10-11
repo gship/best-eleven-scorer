@@ -47,3 +47,4 @@ app.*.map.json
 webbuildhistory
 history
 gitchanges
+lib/pages/tac_card_page copy.dart

@@ -121,7 +121,7 @@ class _TacCardPageState extends State<TacCardPage> {
                       final String bonusColor = '${(card.bonusStipulation as MoreCardsOfColorThanAnyOtherPlayerColor).color}'.replaceAll("Color.", '');
                       final bool hasMore = await showYesNoDialog(context, 'More ${bonusColor.toUpperCase()} Cards?', 'Do you have more $bonusColor cards than any other player?');
                       debugPrint('User answered $hasMore to the question about having more $bonusColor cards than any other player.');
-                      if (hasMore == true) {
+                      if (hasMore) {
                         teams[core.currentPlayer].moreColor[(card.bonusStipulation as MoreCardsOfColorThanAnyOtherPlayerColor).color] = true;
                         if (context.mounted) {
                           final int totalPlayers = await showNumberEntryDialog(context, 'Total Playing Best Eleven?', 'How many players are playing Best Eleven?', 1, 4);

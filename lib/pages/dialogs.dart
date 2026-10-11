@@ -22,6 +22,7 @@ Future<bool> showYesNoDialog(BuildContext context, String header, String query, 
         ),
         titlePadding: EdgeInsets.zero,
         content: Text(query),
+        actionsAlignment: MainAxisAlignment.center, 
         actions: <Widget>[
           TextButton(
             onPressed: () {
@@ -74,6 +75,7 @@ Future<void> showOkDialog(BuildContext context, String header, String phrase) as
         ),
         titlePadding: EdgeInsets.zero,
         content: Text(phrase),
+        actionsAlignment: MainAxisAlignment.center, 
         actions: <Widget>[
           TextButton(
             onPressed: () {
@@ -124,6 +126,7 @@ Future<int> showNumberEntryDialog(BuildContext context, String header, String qu
             MinMaxTextInputFormatter(min: 1, max: 4),
           ],
         ),
+        actionsAlignment: MainAxisAlignment.center, 
         actions: [
           TextButton(
             onPressed: () {

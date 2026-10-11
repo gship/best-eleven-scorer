@@ -194,7 +194,7 @@ class _PlayersSelectPageState extends State<PlayersSelectPage> {
                   } else {
                     Navigator.pushNamed(
                       context,
-                      _nextRoutes[widget.position]!,
+                      (widget.position == Position.forward && teams[core.currentPlayer].needPlayersInHand()) ? playersInHandPage : _nextRoutes[widget.position]!
                     ).then((_) {
                       debugPrint(
                         "Returned to ${_positionSelect[widget.position]} page, popping to root",
